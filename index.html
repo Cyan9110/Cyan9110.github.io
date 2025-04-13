@@ -1876,20 +1876,25 @@
 <script id="chatway" async="true" src="https://cdn.chatway.app/widget.js?id=Z27wkATN8L4g"></script>
 <script charset="UTF-8" id="LA_COLLECT" src="//sdk.51.la/js-sdk-pro.min.js"></script>
 <script>LA.init({id:"3LdNey2DYD7TBmHS",ck:"3LdNey2DYD7TBmHS"})</script>
-<script>(function () {
-  // 判断是否为微信浏览器
-  var isWeChat = /micromessenger/i.test(navigator.userAgent);
+<script>
+  (function () {
+    // 判断是否为微信浏览器
+    var isWeChat = /micromessenger/i.test(navigator.userAgent);
 
-  if (isWeChat) {
-    // 如果是微信浏览器，提示用户在外部浏览器打开
-    document.body.innerHTML = `
-      <div style="text-align: center; padding: 50px;">
-        <h2>请使用手机浏览器打开本页面</h2>
-        <p>点击右上角菜单，选择「在浏览器中打开」</p>
-        <img src="https://www.vcnets.top/wx.jpg" alt="操作引导" style="width: 80%; max-width: 300px; margin-top: 20px;">
-      </div>
-    `;
-  }
-})();</script>
+    if (isWeChat) {
+      // 更改网页标题
+      document.title = '请使用内置浏览器打开';
+
+      // 页面内容提示
+      document.body.innerHTML = `
+        <div style="text-align: center; padding: 50px;">
+          <h2>请使用手机浏览器打开本页面</h2>
+          <p>点击右上角菜单，选择「在浏览器中打开」</p>
+          <img src="https://www.vcnets.top/wx.jpg" alt="操作引导" style="width: 80%; max-width: 300px; margin-top: 20px;">
+        </div>
+      `;
+    }
+  })();
+</script>
 </body>
 </html>
