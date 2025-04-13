@@ -1879,9 +1879,11 @@
 <script>
   (function () {
     // 判断是否为微信浏览器
-    var isWeChat = /micromessenger/i.test(navigator.userAgent);
+    var ua = navigator.userAgent.toLowerCase();
+    var isWeChat = ua.includes('micromessenger');
+    var isQQBrowser = ua.includes('qq/') || ua.includes('qqbrowser');
 
-    if (isWeChat) {
+    if (isWeChat || isQQBrowser) {
       // 更改网页标题
       document.title = '请使用内置浏览器打开';
 
