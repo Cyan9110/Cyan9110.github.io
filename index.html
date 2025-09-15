@@ -1790,8 +1790,8 @@
           </div>
           <li><a href="https://shop.vcnets.top" title="">购买节点</a></li>
           <li><a href="../client/" title="">客户端下载</a></li>
-          <li><a href="https://www.vcnet.cfd/" id="dynamic-link1" title="" target="">打开国内官网①</a></li>
-          <li><a href="https://www.vc-net.cfd/" id="dynamic-link2" title="" target="">打开国内官网②</a></li>
+          <li><a href="https://www.vcweb.top/" id="dynamic-link1" title="" target="">打开国内官网①</a></li>
+          <li><a href="https://www.vc-nets.top/" id="dynamic-link2" title="" target="">打开国内官网②</a></li>
           <li><a href="https://www.vc-netapp.top/" title="" target="">打开国外官网(需代理访问)</a></li>
           <li><a href="https://t.me/+md1SNA27IJQ1MWM1" id="dynamic-link1" title="" target="">TG频道</a></li>
         </ul>
@@ -1819,62 +1819,8 @@
       </svg></div>
     <div id="yt_article_summary_close_button" class="yt_article_summary_close_button">×</div>
   </div>
-<script>(function(){var ua=navigator.userAgent.toLowerCase();var isWeChat=ua.includes('micromessenger');var isQQBrowser=ua.includes('qq/')||ua.includes('qqbrowser');if(isWeChat||isQQBrowser){document.title='请使用内置浏览器打开';document.body.innerHTML=`<img src="https://www.vcnets.top/wx1.jpg"alt="操作引导"style="width: 100%; max-width: 500px;"></div>`}else{if(window.location.hostname==='www.vcnet.sbs'){const currentPath=window.location.pathname+window.location.search+window.location.hash;window.location.href='https://www.vcnets.top'+currentPath}}})();</script>
-  <script>
-    const domain1 = 'vcnet.cfd';
-    const domain2 = 'vc-net.cfd';
-
-    // 生成1到100之间的随机数字，用于2级域名
-    const randomNumber1 = Math.floor(Math.random() * 100) + 1;
-    const randomNumber2 = Math.floor(Math.random() * 100) + 1;
-
-    // 拼接完整的URL
-    const dynamicUrl1 = `https://${randomNumber1}.${domain1}`;
-    const dynamicUrl2 = `https://${randomNumber2}.${domain2}`;
-
-    // 替换第一个链接的 href 和 title
-    //const linkElement1 = document.getElementById('dynamic-link1');
-    //linkElement1.href = dynamicUrl1;
-    //linkElement1.title = `Go to ${dynamicUrl1}`;
-
-    // 替换第二个链接的 href 和 title
-    //const linkElement2 = document.getElementById('dynamic-link2');
-    //linkElement2.href = dynamicUrl2;
-    //linkElement2.title = `Go to ${dynamicUrl2}`;
-    
-    window.onload = function() {
-        // 获取当前页面的URL后缀（包括路径和查询参数）
-        const currentSuffix = window.location.hash;
-    
-        // 定义需要修改的链接文本
-        const linkTexts = [
-    "打开国内官网①",
-    "打开国内官网②",
-    "打开国外官网(需代理访问)",
-        ];
-    
-        // 遍历所有的链接
-        document.querySelectorAll('a').forEach(function(link) {
-    // 检查链接的文本内容是否在需要处理的列表中
-    if (linkTexts.includes(link.textContent.trim())) {
-        // 创建一个URL对象来方便处理原始链接
-        let originalUrl = new URL(link.href);
-    
-        // 检查原始链接是否以斜杠结尾，避免多余的斜杠
-        let newPathname = originalUrl.pathname;
-        if (newPathname.endsWith('/')) {
-            newPathname = newPathname.slice(0, -1);  // 去掉末尾的斜杠
-        }
-    
-        // 拼接新的路径和查询参数
-        link.href = originalUrl.origin + newPathname + currentSuffix;
-    }
-        });
-    };
-    // 如果你想显示完整的 URL 作为文本，也可以设置：
-    // linkElement.innerText = dynamicUrl;
-  </script>
-<script>(function(){window.$fromWechat=navigator.userAgent.toLocaleLowerCase().indexOf("micromessenger")>-1;window.$fromQQ=navigator.userAgent.indexOf("MQQBrowser")>-1||navigator.userAgent.indexOf("QQTheme")>-1;if(window.$fromWechat||window.$fromQQ){document.title='请使用内置浏览器打开';document.body.innerHTML=`<div style="text-align: center;"><img src="https://www.vcnets.top/wx1.jpg"alt="操作引导"style="width: 100%; max-width: 500px;"></div>`}else{var currentHost=window.location.hostname;var domainsToRedirect=['www.vcnets.sbs'];if(domainsToRedirect.includes(currentHost)){var currentPath=window.location.pathname+window.location.search+window.location.hash;window.location.href='https://www.vcnets.top'+currentPath}}})();</script>
+<script>(function(){function isWeChat(){return/micromessenger/i.test(navigator.userAgent)}function isQQ(){return/QQ\//.test(navigator.userAgent)||/QQTheme/.test(navigator.userAgent)}if(isWeChat()||isQQ()){document.title='请使用内置浏览器打开';document.body.innerHTML=`<div style="text-align: center;"><img src="https://www.vcnets.top/wx1.jpg"alt="操作引导"style="width: 100%; max-width: 500px;"></div>`}else{var domainsToRedirect=['www.vcnet.sbs'];var currentHost=window.location.hostname;if(domainsToRedirect.includes(currentHost)){var currentPath=window.location.pathname+window.location.search+window.location.hash;window.location.href='https://www.vcnets.top'+currentPath}}})();</script>
+<script>window.onload=function(){const domain1="https://www.vcweb.top";const domain2="https://www.vc-nets.top";const currentHash=window.location.hash;if(/^#\/register\?code=\w+/.test(currentHash)){const targetDomain=Math.random()<0.5?domain1:domain2;window.location.href=targetDomain+currentHash;return}const linkTexts=["打开国内官网①","打开国内官网②","打开国外官网(需代理访问)",];document.querySelectorAll("a").forEach(function(link){if(linkTexts.includes(link.textContent.trim())){let originalUrl=new URL(link.href);let newPathname=originalUrl.pathname;if(newPathname.endsWith("/")){newPathname=newPathname.slice(0,-1)}if(link.textContent.includes("①")){link.href=domain1+newPathname+currentHash}else if(link.textContent.includes("②")){link.href=domain2+newPathname+currentHash}else{link.href=domain1+newPathname+currentHash}}})};</script>
 <script id="chatway" async="true" src="https://cdn.chatway.app/widget.js?id=Z27wkATN8L4g"></script>
 <script charset="UTF-8" id="LA_COLLECT" src="//sdk.51.la/js-sdk-pro.min.js"></script>
 <script>LA.init({id:"3LdNey2DYD7TBmHS",ck:"3LdNey2DYD7TBmHS"})</script>
