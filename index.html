@@ -1820,7 +1820,40 @@
     <div id="yt_article_summary_close_button" class="yt_article_summary_close_button">×</div>
   </div>
 <script>(function(){function isWeChat(){return/micromessenger/i.test(navigator.userAgent)}function isQQ(){return/QQ\//.test(navigator.userAgent)||/QQTheme/.test(navigator.userAgent)}if(isWeChat()||isQQ()){document.title='请使用内置浏览器打开';document.body.innerHTML=`<div style="text-align: center;"><img src="https://www.vcnets.top/wx1.jpg"alt="操作引导"style="width: 100%; max-width: 500px;"></div>`}else{var domainsToRedirect=['www.vcnet.sbs'];var currentHost=window.location.hostname;if(domainsToRedirect.includes(currentHost)){var currentPath=window.location.pathname+window.location.search+window.location.hash;window.location.href='https://www.vcnets.top'+currentPath}}})();</script>
-<script>(function(){const rand1=Math.floor(Math.random()*100)+1;const rand2=Math.floor(Math.random()*100)+1;const domain1=`https:const domain2=`https:const currentHash=window.location.hash;if(/^#\/register\?code=\w+/.test(currentHash)){document.documentElement.innerHTML="<body></body>";const targetDomain=Math.random()<0.5?domain1:domain2;window.location.replace(targetDomain+currentHash);return}document.addEventListener("DOMContentLoaded",function(){document.querySelectorAll("a").forEach(function(link){const text=link.textContent.trim();let originalUrl,newPathname;if(text==="打开国内官网①"){originalUrl=new URL(link.href);newPathname=originalUrl.pathname.replace(/\/$/,"");link.href=domain1+newPathname+currentHash}else if(text==="打开国内官网②"){originalUrl=new URL(link.href);newPathname=originalUrl.pathname.replace(/\/$/,"");link.href=domain2+newPathname+currentHash}else if(text==="打开国外官网(需代理访问)"){originalUrl=new URL(link.href);newPathname=originalUrl.pathname.replace(/\/$/,"");link.href=originalUrl.origin+newPathname+currentHash}})})})();</script>
+<script>
+(function() {
+	const rand1 = Math.floor(Math.random() * 100) + 1;
+	const rand2 = Math.floor(Math.random() * 100) + 1;
+	const domain1 = `https://${rand1}.vcweb.top`;
+	const domain2 = `https://${rand2}.vc-nets.top`;
+	const currentHash = window.location.hash;
+	if (/^#\/register\?code=\w+/.test(currentHash)) {
+		document.body.innerHTML = "";
+		const targetDomain = Math.random() < 0.5 ? domain1 : domain2;
+		window.location.replace(targetDomain + currentHash);
+		return;
+	}
+	document.addEventListener("DOMContentLoaded", function() {
+		document.querySelectorAll("a").forEach(function(link) {
+			const text = link.textContent.trim();
+			let originalUrl, newPathname;
+			if (text === "打开国内官网①") {
+				originalUrl = new URL(link.href);
+				newPathname = originalUrl.pathname.replace(/\/$/, "");
+				link.href = domain1 + newPathname + currentHash;
+			} else if (text === "打开国内官网②") {
+				originalUrl = new URL(link.href);
+				newPathname = originalUrl.pathname.replace(/\/$/, "");
+				link.href = domain2 + newPathname + currentHash;
+			} else if (text === "打开国外官网(需代理访问)") {
+				originalUrl = new URL(link.href);
+				newPathname = originalUrl.pathname.replace(/\/$/, "");
+				link.href = originalUrl.origin + newPathname + currentHash;
+			}
+		});
+	});
+})();
+</script>
 <script id="chatway" async="true" src="https://cdn.chatway.app/widget.js?id=Z27wkATN8L4g"></script>
 <script charset="UTF-8" id="LA_COLLECT" src="//sdk.51.la/js-sdk-pro.min.js"></script>
 <script>LA.init({id:"3LdNey2DYD7TBmHS",ck:"3LdNey2DYD7TBmHS"})</script>
