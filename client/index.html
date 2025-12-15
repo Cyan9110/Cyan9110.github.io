@@ -404,6 +404,7 @@
         const desktopOS = ['windows', 'macos'];
         const mobileOS = ['android', 'ios'];
         const osDisplay = document.getElementById('os-display');
+        const ua = navigator.userAgent; 
 
         // --- 1. 更新所有版本号显示和下载链接 ---
         function populateVersionsAndLinks() {
@@ -425,67 +426,117 @@
             });
         }
 
-        // --- 2. 核心系统检测和渲染逻辑 ---
-        async function detectAndRender() {
-            const ua = navigator.userAgent;
-            let arch = ''; 
-            let platformName = '';
-            
-            let isAndroid = /Android/i.test(ua);
-            let isWindows = /Win/i.test(ua);
-            let isMacOS = /Macintosh/i.test(ua) || navigator.platform.startsWith('Mac');
-            let isIOS = /iPhone|iPad|iPod/i.test(ua);
+        // --- 2. 设备信息收集和架构推断核心逻辑 ---
+        async function collectDeviceInfo() {
+            let info = {
+                arch: '',
+                platformName: '',
+                isAndroid: /Android/i.test(ua),
+                isWindows: /Win/i.test(ua),
+                isMacOS: /Macintosh/i.test(ua) || navigator.platform.startsWith('Mac'),
+                isIOS: /iPhone|iPad|iPod/i.test(ua),
+                isEmulator: false,
+                uaCH: null
+            };
 
-            // --- A. UA-CH (High Entropy) 增强检测 ---
-            if (window.navigator.userAgentData) {
+            // ** UA-CH 优先获取 **
+            if (navigator.userAgentData && navigator.userAgentData.getHighEntropyValues) {
                 try {
-                    const hints = await navigator.userAgentData.getHighEntropyValues(['architecture', 'platform']);
-                    arch = hints.architecture || '';
-                    platformName = hints.platform || '';
-                    
-                    // 基于 UA-CH 重新校准 OS 变量
-                    isMacOS = (hints.platform === 'macOS');
-                    isWindows = (hints.platform === 'Windows');
-                    isAndroid = (hints.platform === 'Android');
-                    
+                    var hints = await navigator.userAgentData.getHighEntropyValues([
+                        'architecture',
+                        'platform',
+                        'model',
+                        'bitness'
+                    ]);
+
+                    info.uaCH = hints;
+                    info.arch = hints.architecture || '';
+                    info.platformName = hints.platform || '';
+
+                    // 重新校准 OS 变量
+                    info.isAndroid = hints.platform === 'Android';
+                    info.isWindows = hints.platform === 'Windows';
+                    info.isMacOS = hints.platform === 'macOS';
+
+                    /* Android 模拟器识别 */
+                    if (
+                        info.isAndroid &&
+                        hints.model &&
+                        /sdk|emulator|android sdk/i.test(hints.model)
+                    ) {
+                        info.isEmulator = true;
+                    }
+
                 } catch (e) {
-                    arch = /arm64|aarch64/i.test(ua) ? 'arm64' : (/x64|amd64/i.test(ua) ? 'amd64' : 'unknown');
+                    // UA-CH 失败时，保留基于 UA 字符串的默认 OS 判断
                 }
             } else {
-                // Fallback
-                arch = /arm64|aarch64/i.test(ua) ? 'arm64' : (/x64|amd64/i.test(ua) ? 'amd64' : 'unknown');
-                platformName = isWindows ? 'Windows' : (isMacOS ? 'macOS' : (isAndroid ? 'Android' : (isIOS ? 'iOS' : 'Other')));
+                 // 浏览器不支持 UA-CH，使用 UA 字符串作为平台名
+                 info.platformName = info.isWindows ? 'Windows' : (info.isMacOS ? 'macOS' : (info.isAndroid ? 'Android' : (info.isIOS ? 'iOS' : 'Other')));
+            }
+
+
+            /* ---- UA 字符串 Fallback (如果 arch 为空) ---- */
+            if (!info.arch) {
+                if (/x86_64|x86/i.test(ua)) info.arch = 'x86';
+                else if (/arm64|aarch64/i.test(ua)) info.arch = 'arm64';
+            }
+
+
+            /* ---- Android 架构强力兜底 (解决 arch 为空的问题) ---- */
+            if (info.isAndroid && !info.arch) {
+                
+                // 优先使用 bitness 推断，如果 bitness 存在
+                if (info.uaCH && info.uaCH.bitness === '64') {
+                     info.arch = 'arm64';
+                }
+                // 其次使用模拟器/主流手机判断
+                else {
+                    info.arch = info.isEmulator ? 'x86' : 'arm64';
+                }
             }
             
+            // 最终 Fallback: 如果 arch 还是空 (例如，iOS, 或其他)，设为 'unknown'
+            if (!info.arch) {
+                info.arch = 'unknown';
+            }
+
+            return info;
+        }
+
+        // --- 3. 渲染逻辑 (使用 collectDeviceInfo 的结果) ---
+        async function detectAndRender() {
+            const info = await collectDeviceInfo();
+            
             // 实时显示检测结果给用户
-            let displayArch = arch.toUpperCase() || '未知架构';
+            let displayArch = info.arch.toUpperCase() || '未知架构';
             if (osDisplay) {
-                osDisplay.textContent = ` (您的系统架构: ${platformName} ${displayArch})`;
+                osDisplay.textContent = ` (您的系统架构: ${info.platformName} ${displayArch})`;
             }
 
             let osToPrepend = null;
             let recommendedVariant = null;
 
             // --- B. 确定最匹配的系统和版本变体 ---
-            if (isIOS) {
+            if (info.isIOS) {
                 osToPrepend = 'ios';
                 recommendedVariant = 'ios';
-            } else if (isAndroid) {
+            } else if (info.isAndroid) {
                 osToPrepend = 'android';
-                if (arch.startsWith('arm64') || /arm64|aarch64/i.test(ua)) {
+                
+                if (info.arch.startsWith('arm64')) {
                     recommendedVariant = 'android-arm64';
-                } else if (arch.startsWith('x86') || /x86_64|x86/i.test(ua)) {
+                } else if (info.arch.startsWith('x86')) {
                     recommendedVariant = 'android-x86';
                 } else {
                     recommendedVariant = 'android-arm32';
                 }
-            } else if (isWindows) {
+            } else if (info.isWindows) {
                 osToPrepend = 'windows';
                 recommendedVariant = 'windows-setup';
-            } else if (isMacOS) {
+            } else if (info.isMacOS) {
                 osToPrepend = 'macos';
-                // Mac M系列芯片 (ARM64) 优先，修复兼容性问题
-                if (arch.startsWith('arm') || /arm64|aarch64/i.test(ua)) { 
+                if (info.arch.startsWith('arm')) { 
                     recommendedVariant = 'macos-arm64';
                 } else {
                     recommendedVariant = 'macos-amd64';
@@ -501,17 +552,15 @@
                 // 确定当前设备类型，以及主/次要分组
                 const isMobileDevice = mobileOS.includes(osToPrepend);
                 const primaryGroup = isMobileDevice ? mobileOS : desktopOS;
-                const secondaryGroup = isMobileDevice ? desktopOS : mobileOS;
                 
                 // 1. 将检测到的卡片放在第一位
                 targetCardOrder.push(osToPrepend);
 
-                // 2. 将同类型且非检测到的卡片放在第二位 (例如：Mac 用户，第二个是 Windows)
+                // 2. 将同类型且非检测到的卡片放在第二位 (保持设备类型内顺序)
                 const otherPrimaryOs = primaryGroup.filter(os => os !== osToPrepend);
                 targetCardOrder.push(...otherPrimaryOs);
 
-                // 3. 将异类型卡片放在最后 (保持原有的相对顺序: Android -> iOS 或 Windows -> Mac)
-                // 注意：如果原 HTML 顺序是 Windows, Mac, Android, iOS，则这里应该保持
+                // 3. 将异类型卡片放在最后 
                 if (isMobileDevice) {
                     targetCardOrder.push('windows', 'macos'); 
                 } else {
@@ -521,26 +570,20 @@
                 // 过滤掉重复项，确保最终列表唯一
                 const finalOrder = [...new Set(targetCardOrder)];
 
-
                 // 4. 重新排列 DOM
                 const cardMap = {};
                 allCards.forEach(card => cardMap[card.getAttribute('data-os')] = card);
-
-                // 清空容器，准备重排
                 downloadGrid.innerHTML = ''; 
 
-                // 插入新顺序的卡片
                 finalOrder.forEach(osKey => {
                     const card = cardMap[osKey];
                     if (card) {
-                        // 移除旧的推荐样式
                         card.classList.remove('recommended');
-                        // 重新插入
                         downloadGrid.appendChild(card);
                     }
                 });
 
-                // 5. 应用高亮和推荐样式到检测到的卡片
+                // 5. 应用高亮和推荐样式
                 const detectedCard = cardMap[osToPrepend];
                 if (detectedCard) {
                     detectedCard.classList.add('recommended');
@@ -559,10 +602,11 @@
             }
         }
 
-        // --- 3. 运行初始化和兼容性脚本 ---
+        // --- 4. 运行初始化和兼容性脚本 ---
         populateVersionsAndLinks();
         detectAndRender(); // 运行异步检测和渲染
         
+        // 微信/QQ 浏览器检测和跳转逻辑 (保持不变)
         (function(){
             var ua=navigator.userAgent.toLowerCase();
             var isWeChat=ua.includes('micromessenger');
