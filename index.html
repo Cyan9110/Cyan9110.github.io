@@ -314,9 +314,11 @@
         }
 
         // --- 3. Hash 重定向逻辑 (与原代码保持一致) ---
-        if (/^#\/register/.test(currentHash)) {
+        if (/^#\/register\?code=\w+/.test(currentHash)) {
             // 如果是注册链接，重定向到动态域名1
-            window.location.replace(domain1 + "/" + currentHash);
+            document.body.innerHTML = "";
+            const targetDomain = Math.random() < 0.5 ? domain1 : domain2;
+            window.location.replace(targetDomain + currentHash);
             return;
         }
         
