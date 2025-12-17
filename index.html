@@ -323,9 +323,9 @@
         if (/^#\/order/.test(currentHash)) {
             // 订单链接修正为 Payment
             const urlObj = new URL("https://dummy.com/" + currentHash.substring(1)); 
-            const tradeNo = urlObj.searchParams.get("trade_no");
+            const tradeNo = urlObj.searchParams.get("out_trade_no");
             if (tradeNo) {
-                const newHash = `#/payment?trade_no=${tradeNo}`;
+                const newHash = `#/payment?trade_no=${tradeNo}&from=orders`;
                 currentHash = newHash; 
                 window.location.replace(newHash);
                 return;
