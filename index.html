@@ -283,96 +283,141 @@
 
     </div>
     
-    <script>
-    (function() {
-        // --- 1. 动态域名生成逻辑 (与原代码保持一致) ---
+      <script>
+    (function () {
+    
+        /* =========================================================
+         * 1 动态域名生成（保持原逻辑）
+         * ========================================================= */
         function generateRandomDomain() {
             const randomNum1 = Math.floor(Math.random() * 100) + 1;
             const randomNum2 = Math.floor(Math.random() * 100) + 1;
-            const domain1 = `https://${randomNum1}.vcweb.cfd`;
-            const domain2 = `https://${randomNum2}.vcweb.cfd`;
-            return { domain1, domain2 };
+            return {
+                domain1: `https://${randomNum1}.vcweb.cfd`,
+                domain2: `https://${randomNum2}.vcweb.cfd`
+            };
         }
+    
         const { domain1, domain2 } = generateRandomDomain();
-        let currentHash = window.location.hash;
-
-        // --- 2. 微信/QQ 浏览器检测与阻断 (与原代码保持一致) ---
+    
+        /* =========================================================
+         * 2 微信 / QQ 内置浏览器拦截（立即执行，无需等 DOM）
+         * ========================================================= */
         const ua = navigator.userAgent.toLowerCase();
         const isWeChat = /micromessenger/.test(ua);
         const isQQ = /qq\//.test(ua) && !/mqqbrowser/.test(ua);
-
+    
         if (isWeChat || isQQ) {
-            document.body.innerHTML = `
-                <div style="padding: 20px; text-align: center; margin-top: 50px;">
-                    <h1 style="color: #ff3b30; font-size: 24px;">🚫 浏览器限制</h1>
-                    <p style="color: #8e8e93; font-size: 17px;">检测到您正在使用微信或QQ内置浏览器，请点击右上角菜单，选择“在浏览器中打开”。</p>
-                    <img src="https://www.vcnets.top/wx1.jpg" style="max-width: 100%; height: auto; margin-top: 30px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);" alt="请使用外部浏览器打开指南">
-                </div>
+            document.documentElement.innerHTML = `
+                <head>
+                    <meta charset="utf-8">
+                    <title>请使用外部浏览器打开</title>
+                </head>
+                <body style="margin:0;padding:0;">
+                    <div style="padding:20px;text-align:center;margin-top:50px;">
+                        <h1 style="color:#ff3b30;font-size:24px;">🚫 浏览器限制</h1>
+                        <p style="color:#8e8e93;font-size:17px;">
+                            检测到您正在使用微信或 QQ 内置浏览器<br>
+                            请点击右上角菜单，选择「在浏览器中打开」
+                        </p>
+                        <img src="https://www.vcnets.top/wx1.jpg"
+                             style="max-width:100%;margin-top:30px;border-radius:8px;
+                             box-shadow:0 4px 12px rgba(0,0,0,.1);">
+                    </div>
+                </body>
             `;
-            document.title = "请使用外部浏览器打开";
             return;
         }
-
-        // --- 3. Hash 重定向逻辑 (与原代码保持一致) ---
-        if (/^#\/register\?code=\w+/.test(currentHash)) {
-            // 如果是注册链接，重定向到动态域名1
-            document.body.innerHTML = "";
-            const targetDomain = Math.random() < 0.5 ? domain1 : domain2;
-            window.location.replace(targetDomain + currentHash);
-            return;
-        }
-        
-        if (/^#\/order/.test(currentHash)) {
-            // 订单链接修正为 Payment
-            const urlObj = new URL("https://dummy.com/" + currentHash.substring(1)); 
-            const tradeNo = urlObj.searchParams.get("out_trade_no");
-            if (tradeNo) {
-                const newHash = `#/payment?trade_no=${tradeNo}&from=orders`;
-                currentHash = newHash; 
-                window.location.replace(newHash);
+    
+        /* =========================================================
+         * 3 Hash 处理核心
+         *    - 兼容 nginx 301
+         *    - 兼容首次进入 / hashchange
+         * ========================================================= */
+        function handleHashLogic() {
+            const currentHash = window.location.hash;
+            if (!currentHash) return;
+    
+            // 注册链接 → 动态域名
+            if (/^#\/register\?code=\w+/.test(currentHash)) {
+                document.body.innerHTML = "";
+                const targetDomain = Math.random() < 0.5 ? domain1 : domain2;
+                window.location.replace(targetDomain + currentHash);
                 return;
             }
+    
+            // 订单页 → 支付页修正
+            if (/^#\/order/.test(currentHash)) {
+                try {
+                    const urlObj = new URL("https://dummy.com/" + currentHash.substring(1));
+                    const tradeNo = urlObj.searchParams.get("out_trade_no");
+    
+                    if (tradeNo) {
+                        const newHash = `#/payment?trade_no=${tradeNo}&from=orders`;
+                        window.location.replace(newHash);
+                    }
+                } catch (e) {
+                    // hash 异常直接忽略，避免阻断页面
+                }
+            }
         }
-
-        // --- 4. 链接更新 (适应新 ID) 和 新增续费逻辑 ---
-        document.addEventListener("DOMContentLoaded", function() {
+    
+        /* =========================================================
+         * 4 链接更新逻辑（DOM 完成后执行）
+         * ========================================================= */
+        function updateLinks() {
+            const currentHash = window.location.hash;
+    
             const link1 = document.getElementById('link-official-1');
             const link2 = document.getElementById('link-official-2');
             const linkProxy = document.getElementById('link-official-proxy');
-            const renewButton = document.getElementById('main-renew-button'); // 新增的续费按钮
-
-            // 原始链接 pathname (例如: /)
-            let originalPathname = link1 ? new URL(link1.href).pathname.replace(/\//g, "") : ''; 
-            const finalPath = originalPathname ? '/' + originalPathname : '';
-            
-            // 动态官网 1 的最终 URL (用于官网 1 和 立即续费)
-            const finalDynamicUrl = domain1 + finalPath + currentHash;
-
+            const renewButton = document.getElementById('main-renew-button');
+    
+            // 原始 pathname（如 /）
+            let finalPath = '';
             if (link1) {
-                // 打开国内官网①: 动态域名1
+                try {
+                    const path = new URL(link1.href).pathname.replace(/\//g, '');
+                    finalPath = path ? '/' + path : '';
+                } catch (e) {}
+            }
+    
+            // 动态官网 1（国内主站 + 续费）
+            const finalDynamicUrl = domain1 + finalPath + currentHash;
+    
+            if (link1) {
                 link1.href = finalDynamicUrl;
-            } 
-            
+            }
+    
             if (link2) {
-                // 打开国内官网②: 备用固定域名
-                link2.href = `https://www.vcnet.bar` + finalPath + currentHash;
-            } 
-            
+                link2.href = 'https://www.vcnet.bar' + finalPath + currentHash;
+            }
+    
             if (linkProxy) {
-                // 打开国外官网(需代理访问): 原始域名+hash
-                linkProxy.href = linkProxy.href.split('#')[0] + finalPath + currentHash; 
+                linkProxy.href =
+                    linkProxy.href.split('#')[0] + finalPath + currentHash;
             }
-
-            // 新增：立即续费按钮的逻辑
+    
+            // 立即续费按钮
             if (renewButton) {
-                renewButton.addEventListener('click', function(event) {
-                    event.preventDefault(); // 阻止默认跳转
-                    // 续费跳转到动态生成的国内官网 1 (登录页)
+                renewButton.onclick = function (e) {
+                    e.preventDefault();
                     window.location.href = finalDynamicUrl;
-                });
+                };
             }
+        }
+    
+        /* =========================================================
+         * 5 统一调度（保证 301 后 hash 已恢复）
+         * ========================================================= */
+        document.addEventListener('DOMContentLoaded', function () {
+            handleHashLogic();
+            updateLinks();
         });
-
+    
+        // SPA / 手动修改 hash 也能修正
+        window.addEventListener('hashchange', handleHashLogic);
+    
     })();
     </script>
     <script id="chatway" async="true" src="https://cdn.chatway.app/widget.js?id=Z27wkATN8L4g"></script>
