@@ -12,41 +12,75 @@
     <script charset="UTF-8" id="LA_COLLECT" src="//sdk.51.la/js-sdk-pro.min.js"></script>
     <script>LA.init({id:"3LdNey2DYD7TBmHS",ck:"3LdNey2DYD7TBmHS"})</script>
     <style>
-        /* CSS 变量：定义系统主题颜色 */
+        /* CSS 变量定义 */
         :root {
-            --ios-bg-color: #f2f2f7; /* 浅灰色背景 */
-            --ios-card-bg: #ffffff; /* 卡片白色背景 */
-            --ios-separator-color: #c6c6c8; /* 分隔线颜色 */
-            --ios-blue: #007aff; /* iOS 系统蓝 */
-            --ios-green: #34c759; /* iOS 系统绿 */
+            --ios-bg-color: #f2f2f7;
+            --ios-card-bg: #ffffff;
+            --ios-separator-color: #c6c6c8;
+            --ios-blue: #007aff;
+            --ios-green: #34c759;
             --ios-text-color: #000000;
-            --ios-secondary-text: #8e8e93; /* 辅助文字颜色 */
+            --ios-secondary-text: #8e8e93;
             --ios-radius: 12px;
             --ios-list-radius: 10px;
         }
 
-        /* 基础样式：使用系统字体栈 */
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-            background-color: var(--ios-bg-color);
-            color: var(--ios-text-color);
+        /* 基础重置 */
+        body, html {
             margin: 0;
             padding: 0;
-            line-height: 1.4;
-        }
-        
-        a {
-            text-decoration: none;
-            color: var(--ios-blue);
+            height: 100%;
+            width: 100%;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: var(--ios-bg-color);
+            overflow: hidden; /* 防止双滚动条，由分栏容器处理 */
         }
 
-        .container {
-            max-width: 600px;
-            margin: 0 auto;
-            padding: 20px 16px;
+        /* --- 核心修改：彻底去除所有链接下划线 --- */
+        a {
+            text-decoration: none !important;
+            color: inherit;
+            outline: none;
         }
-        
-        /* 1. App Store 头部卡片风格 */
+        a:hover, a:active, a:visited {
+            text-decoration: none !important;
+        }
+
+        /* 左右分栏容器布局 */
+        .split-wrapper {
+            display: flex;
+            height: 100vh;
+            width: 100%;
+        }
+
+        /* 左侧背景图区域 */
+        .split-left {
+            flex: 1; /* 占据空间比例 */
+            background-image: url('https://api.1314.cool/bingimg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            border-right: 1px solid rgba(0,0,0,0.05);
+        }
+
+        /* 右侧网页内容区域 */
+        .split-right {
+            flex: 1; /* 占据空间比例 */
+            background-color: var(--ios-bg-color);
+            overflow-y: auto; /* 内容超出时右侧独立滚动 */
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        /* 内容承载容器 */
+        .container {
+            width: 100%;
+            max-width: 500px;
+            padding: 40px 16px;
+        }
+
+        /* App Store 风格头部 */
         .app-header-card {
             display: flex;
             flex-direction: column;
@@ -54,71 +88,53 @@
             padding: 24px 0;
             margin-bottom: 25px;
         }
-        
         .app-icon {
             width: 80px;
             height: 80px;
-            background-color: var(--ios-blue); /* 模拟应用图标背景 */
-            border-radius: 18px; /* 模拟 iOS 图标圆角 */
+            background-color: var(--ios-blue);
+            border-radius: 18px;
             overflow: hidden;
             display: flex;
             justify-content: center;
             align-items: center;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
         }
-        
-        .app-icon i {
-            color: white;
-            font-size: 36px;
-        }
-
         .app-title {
             font-size: 28px;
             font-weight: 700;
             margin-top: 15px;
             color: var(--ios-text-color);
         }
-        
-        .app-subtitle {
-            color: var(--ios-secondary-text);
-            font-size: 15px;
-            margin-top: 5px;
-            text-align: center;
-        }
 
-        /* 核心动作按钮 (GET/购买) */
+        /* 动作按钮风格 */
         .primary-action {
             margin-top: 20px;
-            display: flex; /* 启用 Flexbox */
-            justify-content: center; /* 居中 button-group */
+            display: flex;
+            justify-content: center;
         }
-        
         .button-group {
             display: flex;
-            gap: 10px; /* 按钮之间的间距 */
+            gap: 12px;
         }
-
         .app-store-button {
             display: block;
-            width: 130px; /* 调整宽度以适应双按钮布局 */
+            width: 130px;
             height: 38px;
             line-height: 38px;
             text-align: center;
             background-color: var(--ios-blue);
-            color: white;
+            color: white !important; /* 强制按钮文字白色且无下划线 */
             font-size: 16px;
             font-weight: 600;
-            border-radius: 19px; /* 药丸形状 */
+            border-radius: 19px;
             transition: background-color 0.15s ease;
             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-            cursor: pointer;
         }
-
         .app-store-button:active {
             background-color: #0066cc;
         }
 
-        /* 2. iOS 设置/列表分组风格 (以下样式未变动) */
+        /* iOS 设置列表风格 */
         .ios-group-list {
             list-style: none;
             padding: 0;
@@ -126,9 +142,8 @@
             background-color: var(--ios-card-bg);
             border-radius: var(--ios-list-radius);
             overflow: hidden;
-            box-shadow: 0 0.5px 0 rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.05); /* 模拟轻微的立体感 */
+            box-shadow: 0 0.5px 0 rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.05);
         }
-        
         .list-header {
             padding: 10px 20px 5px 20px;
             font-size: 13px;
@@ -136,22 +151,20 @@
             color: var(--ios-secondary-text);
             text-transform: uppercase;
         }
-
         .ios-group-list li {
             position: relative;
         }
-
+        /* 列表项中间的分隔线，非文字下划线 */
         .ios-group-list li:not(:last-child)::after {
             content: '';
             position: absolute;
             bottom: 0;
-            left: 20px; /* 模拟列表项左侧缩进 */
+            left: 20px;
             right: 0;
             height: 0.5px;
             background-color: var(--ios-separator-color);
-            transform: scaleY(0.5); /* 模拟 Retina 细线 */
+            transform: scaleY(0.5);
         }
-
         .ios-group-list a.list-item-content {
             display: flex;
             align-items: center;
@@ -160,12 +173,12 @@
             color: var(--ios-text-color);
             transition: background-color 0.1s;
         }
-
         .ios-group-list a.list-item-content:active {
             background-color: #e5e5ea;
         }
 
-        .list-item-content .icon-wrapper {
+        /* 列表项内图标样式 */
+        .icon-wrapper {
             width: 26px;
             height: 26px;
             margin-right: 15px;
@@ -176,36 +189,19 @@
             color: white;
             font-size: 14px;
         }
-
-        .list-item-content .item-label {
-            flex-grow: 1;
-            font-size: 17px;
-        }
-
-        .list-item-content .chevron {
-            color: var(--ios-separator-color);
-            font-size: 14px;
-            margin-left: 10px;
-        }
-
-        /* 列表项图标颜色定制 (模拟 iOS 设置图标) */
         .icon-download { background-color: var(--ios-green); }
         .icon-globe { background-color: var(--ios-blue); }
-        .icon-telegram { background-color: #2aabee; } /* Telegram 蓝 */
-        .icon-alert { background-color: #ff3b30; } /* iOS 红色 (Alert) */
-        
-        /* 3. 底部版权信息 */
-        .footer {
-            text-align: center;
-            margin-top: 30px;
-            font-size: 13px;
-            color: var(--ios-secondary-text);
-        }
+        .icon-telegram { background-color: #2aabee; }
+        .item-label { flex-grow: 1; font-size: 17px; }
+        .chevron { color: var(--ios-separator-color); font-size: 14px; }
+
+        /* 警示文字跑马灯动画 */
         .xxxpan-text {
             font-weight: 800;
+            margin: 10px 0;
+            text-align: center;
             animation: rainbow 4s infinite linear;
         }
-        
         @keyframes rainbow {
             0%   { color: hsl(0, 70%, 50%); }
             25%  { color: hsl(90, 70%, 50%); }
@@ -213,142 +209,199 @@
             75%  { color: hsl(270, 70%, 50%); }
             100% { color: hsl(360, 70%, 50%); }
         }
+
+        /* 底部版权信息 */
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 13px;
+            color: var(--ios-secondary-text);
+        }
+
+        /* 移动端响应式适配 */
+        @media (max-width: 768px) {
+            .split-left { display: none; } /* 手机端隐藏背景图 */
+            .split-right { height: auto; overflow-y: visible; }
+            body, html { overflow: auto; }
+        }
     </style>
 </head>
 <body>
-
-    <div class="container">
-        
-        <header class="app-header-card">
-            <div class="app-icon">
-                <img src="https://www.vcnets.top/client/img/icon_512x512@2x.png" style="max-width:150px;max-height:100px;border-radius: 50%;" class="logo" alt="维C加速">
-            </div>
-            <h1 class="app-title">维C加速</h1>
-            <div class="primary-action">
-                <div class="button-group">
-                    <a href="https://shop.vcnets.top" class="app-store-button" id="main-buy-button">购买节点</a>
-                </div>
-            </div>
-        </header>
-
-        <h2 class="list-header">官方入口</h2>
-        <ul class="ios-group-list">
-            <li>
-                <a href="../client/" class="list-item-content">
-                    <span class="icon-wrapper icon-download"><i class="fas fa-download"></i></span>
-                    <span class="item-label">客户端下载</span>
-                    <i class="fas fa-chevron-right chevron"></i>
-                </a>
-            </li>
-        </ul>
-
-        <h2 class="list-header">社区与通知</h2>
-        <ul class="ios-group-list">
-             <li>
-                <a href="https://t.me/+md1SNA27IJQ1MWM1" target="_blank" class="list-item-content">
-                    <span class="icon-wrapper icon-telegram"><i class="fab fa-telegram-plane"></i></span>
-                    <span class="item-label">Telegram 官方频道</span>
-                    <i class="fas fa-chevron-right chevron"></i>
-                </a>
-            </li>
-        </ul>
-
-        <footer class="footer">
-            <p>© 2025 VCNET. All rights reserved.</p>
-        </footer>
-
+    <div class="split-wrapper">
+    	<div class="split-left"></div>
+    	<div class="split-right">
+    		<div class="container">
+    			<header class="app-header-card">
+    				<div class="app-icon">
+    					<img src="https://www.vcnets.top/client/img/icon_512x512@2x.png" style="max-width:150px;max-height:100px;border-radius: 50%;" class="logo" alt="维C加速">
+    				</div>
+    				<h1 class="app-title">维C加速</h1>
+    				<div class="primary-action">
+    					<div class="button-group">
+    						<a href="https://shop.vcnets.top" class="app-store-button" id="main-buy-button">购买节点</a>
+    					</div>
+    				</div>
+    			</header>
+    			<h2 class="list-header">官方入口</h2>
+    			<ul class="ios-group-list">
+    				<li>
+    					<a href="../client/" class="list-item-content">
+    						<span class="icon-wrapper icon-download"><i class="fas fa-download"></i></span>
+    						<span class="item-label">客户端下载</span>
+    						<i class="fas fa-chevron-right chevron"></i>
+    					</a>
+    				</li>
+    			</ul>
+    			<h2 class="list-header">社区与通知</h2>
+    			<ul class="ios-group-list">
+    				<li>
+    					<a href="https://t.me/+md1SNA27IJQ1MWM1" target="_blank" class="list-item-content">
+    						<span class="icon-wrapper icon-telegram"><i class="fab fa-telegram-plane"></i></span>
+    						<span class="item-label">Telegram 官方频道</span>
+    						<i class="fas fa-chevron-right chevron"></i>
+    					</a>
+    				</li>
+    			</ul>
+    			<footer class="footer">
+    				<p>© 2025 VCNET. All rights reserved.</p>
+    			</footer>
+    		</div>
+    	</div>
     </div>
-    
     <script>
-    (function() {
-        // --- 1. 动态域名生成逻辑 (与原代码保持一致) ---
+    (function () {
+    
+        /* =========================================================
+         * 1 动态域名生成（保持原逻辑）
+         * ========================================================= */
         function generateRandomDomain() {
             const randomNum1 = Math.floor(Math.random() * 100) + 1;
             const randomNum2 = Math.floor(Math.random() * 100) + 1;
-            const domain1 = `https://${randomNum1}.vcweb.cfd`;
-            const domain2 = `https://${randomNum2}.vcweb.cfd`;
-            return { domain1, domain2 };
+            return {
+                domain1: `https://${randomNum1}.vcweb.cfd`,
+                domain2: `https://${randomNum2}.vcweb.cfd`
+            };
         }
+    
         const { domain1, domain2 } = generateRandomDomain();
-        let currentHash = window.location.hash;
-
-        // --- 2. 微信/QQ 浏览器检测与阻断 (与原代码保持一致) ---
+    
+        /* =========================================================
+         * 2 微信 / QQ 内置浏览器拦截（立即执行，无需等 DOM）
+         * ========================================================= */
         const ua = navigator.userAgent.toLowerCase();
         const isWeChat = /micromessenger/.test(ua);
         const isQQ = /qq\//.test(ua) && !/mqqbrowser/.test(ua);
-
+    
         if (isWeChat || isQQ) {
-            document.body.innerHTML = `
-                <div style="padding: 20px; text-align: center; margin-top: 50px;">
-                    <h1 style="color: #ff3b30; font-size: 24px;">🚫 浏览器限制</h1>
-                    <p style="color: #8e8e93; font-size: 17px;">检测到您正在使用微信或QQ内置浏览器，请点击右上角菜单，选择“在浏览器中打开”。</p>
-                    <img src="https://www.vcnets.top/wx1.jpg" style="max-width: 100%; height: auto; margin-top: 30px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);" alt="请使用外部浏览器打开指南">
-                </div>
+            document.documentElement.innerHTML = `
+                <head>
+                    <meta charset="utf-8">
+                    <title>请使用外部浏览器打开</title>
+                </head>
+                <body style="margin:0;padding:0;">
+                    <div style="padding:20px;text-align:center;margin-top:50px;">
+                        <h1 style="color:#ff3b30;font-size:24px;">🚫 浏览器限制</h1>
+                        <p style="color:#8e8e93;font-size:17px;">
+                            检测到您正在使用微信或 QQ 内置浏览器<br>
+                            请点击右上角菜单，选择「在浏览器中打开」
+                        </p>
+                        <img src="https://www.vcnets.top/wx1.jpg"
+                             style="max-width:100%;margin-top:30px;border-radius:8px;
+                             box-shadow:0 4px 12px rgba(0,0,0,.1);">
+                    </div>
+                </body>
             `;
-            document.title = "请使用外部浏览器打开";
             return;
         }
-
-        // --- 3. Hash 重定向逻辑 (与原代码保持一致) ---
-        if (/^#\/register\?code=\w+/.test(currentHash)) {
-            // 如果是注册链接，重定向到动态域名1
-            document.body.innerHTML = "";
-            const targetDomain = Math.random() < 0.5 ? domain1 : domain2;
-            window.location.replace(targetDomain + currentHash);
-            return;
-        }
-        
-        if (/^#\/order/.test(currentHash)) {
-            // 订单链接修正为 Payment
-            const urlObj = new URL("https://dummy.com/" + currentHash.substring(1)); 
-            const tradeNo = urlObj.searchParams.get("out_trade_no");
-            if (tradeNo) {
-                const newHash = `#/payment?trade_no=${tradeNo}&from=orders`;
-                currentHash = newHash; 
-                window.location.replace(newHash);
+    
+        /* =========================================================
+         * 3 Hash 处理核心
+         *    - 兼容 nginx 301
+         *    - 兼容首次进入 / hashchange
+         * ========================================================= */
+        function handleHashLogic() {
+            const currentHash = window.location.hash;
+            if (!currentHash) return;
+    
+            // 注册链接 → 动态域名
+            if (/^#\/register\?code=\w+/.test(currentHash)) {
+                const targetDomain = Math.random() < 0.5 ? domain1 : domain2;
+                window.location.replace(targetDomain + currentHash);
                 return;
             }
+    
+            // 订单页 → 支付页修正
+            if (/^#\/order/.test(currentHash)) {
+                try {
+                    const urlObj = new URL("https://dummy.com/" + currentHash.substring(1));
+                    const tradeNo = urlObj.searchParams.get("out_trade_no");
+    
+                    if (tradeNo) {
+                        const newHash = `#/payment?trade_no=${tradeNo}&from=orders`;
+                        window.location.replace(newHash);
+                    }
+                } catch (e) {
+                    // hash 异常直接忽略，避免阻断页面
+                }
+            }
         }
-
-        // --- 4. 链接更新 (适应新 ID) 和 新增续费逻辑 ---
-        document.addEventListener("DOMContentLoaded", function() {
+    
+        /* =========================================================
+         * 4 链接更新逻辑（DOM 完成后执行）
+         * ========================================================= */
+        function updateLinks() {
+            const currentHash = window.location.hash;
+    
             const link1 = document.getElementById('link-official-1');
             const link2 = document.getElementById('link-official-2');
             const linkProxy = document.getElementById('link-official-proxy');
-            const renewButton = document.getElementById('main-renew-button'); // 新增的续费按钮
-
-            // 原始链接 pathname (例如: /)
-            let originalPathname = link1 ? new URL(link1.href).pathname.replace(/\//g, "") : ''; 
-            const finalPath = originalPathname ? '/' + originalPathname : '';
-            
-            // 动态官网 1 的最终 URL (用于官网 1 和 立即续费)
-            const finalDynamicUrl = domain1 + finalPath + currentHash;
-
+            const renewButton = document.getElementById('main-renew-button');
+    
+            // 原始 pathname（如 /）
+            let finalPath = '';
             if (link1) {
-                // 打开国内官网①: 动态域名1
+                try {
+                    const path = new URL(link1.href).pathname.replace(/\//g, '');
+                    finalPath = path ? '/' + path : '';
+                } catch (e) {}
+            }
+    
+            // 动态官网 1（国内主站 + 续费）
+            const finalDynamicUrl = domain1 + finalPath + currentHash;
+    
+            if (link1) {
                 link1.href = finalDynamicUrl;
-            } 
-            
+            }
+    
             if (link2) {
-                // 打开国内官网②: 备用固定域名
-                link2.href = `https://www.vcnet.bar` + finalPath + currentHash;
-            } 
-            
+                link2.href = 'https://www.vcnet.bar' + finalPath + currentHash;
+            }
+    
             if (linkProxy) {
-                // 打开国外官网(需代理访问): 原始域名+hash
-                linkProxy.href = linkProxy.href.split('#')[0] + finalPath + currentHash; 
+                linkProxy.href =
+                    linkProxy.href.split('#')[0] + finalPath + currentHash;
             }
-
-            // 新增：立即续费按钮的逻辑
+    
+            // 立即续费按钮
             if (renewButton) {
-                renewButton.addEventListener('click', function(event) {
-                    event.preventDefault(); // 阻止默认跳转
-                    // 续费跳转到动态生成的国内官网 1 (登录页)
+                renewButton.onclick = function (e) {
+                    e.preventDefault();
                     window.location.href = finalDynamicUrl;
-                });
+                };
             }
+        }
+    
+        /* =========================================================
+         * 5 统一调度（保证 301 后 hash 已恢复）
+         * ========================================================= */
+        document.addEventListener('DOMContentLoaded', function () {
+            handleHashLogic();
+            updateLinks();
         });
-
+    
+        // SPA / 手动修改 hash 也能修正
+        window.addEventListener('hashchange', handleHashLogic);
+    
     })();
     </script>
     <script id="chatway" async="true" src="https://cdn.chatway.app/widget.js?id=Z27wkATN8L4g"></script>
