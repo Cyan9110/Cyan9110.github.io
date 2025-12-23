@@ -12,41 +12,75 @@
     <script charset="UTF-8" id="LA_COLLECT" src="//sdk.51.la/js-sdk-pro.min.js"></script>
     <script>LA.init({id:"3LdNey2DYD7TBmHS",ck:"3LdNey2DYD7TBmHS"})</script>
     <style>
-        /* CSS 变量：定义系统主题颜色 */
+        /* CSS 变量定义 */
         :root {
-            --ios-bg-color: #f2f2f7; /* 浅灰色背景 */
-            --ios-card-bg: #ffffff; /* 卡片白色背景 */
-            --ios-separator-color: #c6c6c8; /* 分隔线颜色 */
-            --ios-blue: #007aff; /* iOS 系统蓝 */
-            --ios-green: #34c759; /* iOS 系统绿 */
+            --ios-bg-color: #f2f2f7;
+            --ios-card-bg: #ffffff;
+            --ios-separator-color: #c6c6c8;
+            --ios-blue: #007aff;
+            --ios-green: #34c759;
             --ios-text-color: #000000;
-            --ios-secondary-text: #8e8e93; /* 辅助文字颜色 */
+            --ios-secondary-text: #8e8e93;
             --ios-radius: 12px;
             --ios-list-radius: 10px;
         }
 
-        /* 基础样式：使用系统字体栈 */
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-            background-color: var(--ios-bg-color);
-            color: var(--ios-text-color);
+        /* 基础重置 */
+        body, html {
             margin: 0;
             padding: 0;
-            line-height: 1.4;
-        }
-        
-        a {
-            text-decoration: none;
-            color: var(--ios-blue);
+            height: 100%;
+            width: 100%;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: var(--ios-bg-color);
+            overflow: hidden; /* 防止双滚动条，由分栏容器处理 */
         }
 
-        .container {
-            max-width: 600px;
-            margin: 0 auto;
-            padding: 20px 16px;
+        /* --- 核心修改：彻底去除所有链接下划线 --- */
+        a {
+            text-decoration: none !important;
+            color: inherit;
+            outline: none;
         }
-        
-        /* 1. App Store 头部卡片风格 */
+        a:hover, a:active, a:visited {
+            text-decoration: none !important;
+        }
+
+        /* 左右分栏容器布局 */
+        .split-wrapper {
+            display: flex;
+            height: 100vh;
+            width: 100%;
+        }
+
+        /* 左侧背景图区域 */
+        .split-left {
+            flex: 1; /* 占据空间比例 */
+            background-image: url('https://api.1314.cool/bingimg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            border-right: 1px solid rgba(0,0,0,0.05);
+        }
+
+        /* 右侧网页内容区域 */
+        .split-right {
+            flex: 1; /* 占据空间比例 */
+            background-color: var(--ios-bg-color);
+            overflow-y: auto; /* 内容超出时右侧独立滚动 */
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        /* 内容承载容器 */
+        .container {
+            width: 100%;
+            max-width: 500px;
+            padding: 40px 16px;
+        }
+
+        /* App Store 风格头部 */
         .app-header-card {
             display: flex;
             flex-direction: column;
@@ -54,71 +88,53 @@
             padding: 24px 0;
             margin-bottom: 25px;
         }
-        
         .app-icon {
             width: 80px;
             height: 80px;
-            background-color: var(--ios-blue); /* 模拟应用图标背景 */
-            border-radius: 18px; /* 模拟 iOS 图标圆角 */
+            background-color: var(--ios-blue);
+            border-radius: 18px;
             overflow: hidden;
             display: flex;
             justify-content: center;
             align-items: center;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
         }
-        
-        .app-icon i {
-            color: white;
-            font-size: 36px;
-        }
-
         .app-title {
             font-size: 28px;
             font-weight: 700;
             margin-top: 15px;
             color: var(--ios-text-color);
         }
-        
-        .app-subtitle {
-            color: var(--ios-secondary-text);
-            font-size: 15px;
-            margin-top: 5px;
-            text-align: center;
-        }
 
-        /* 核心动作按钮 (GET/购买) */
+        /* 动作按钮风格 */
         .primary-action {
             margin-top: 20px;
-            display: flex; /* 启用 Flexbox */
-            justify-content: center; /* 居中 button-group */
+            display: flex;
+            justify-content: center;
         }
-        
         .button-group {
             display: flex;
-            gap: 10px; /* 按钮之间的间距 */
+            gap: 12px;
         }
-
         .app-store-button {
             display: block;
-            width: 130px; /* 调整宽度以适应双按钮布局 */
+            width: 130px;
             height: 38px;
             line-height: 38px;
             text-align: center;
             background-color: var(--ios-blue);
-            color: white;
+            color: white !important; /* 强制按钮文字白色且无下划线 */
             font-size: 16px;
             font-weight: 600;
-            border-radius: 19px; /* 药丸形状 */
+            border-radius: 19px;
             transition: background-color 0.15s ease;
             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-            cursor: pointer;
         }
-
         .app-store-button:active {
             background-color: #0066cc;
         }
 
-        /* 2. iOS 设置/列表分组风格 (以下样式未变动) */
+        /* iOS 设置列表风格 */
         .ios-group-list {
             list-style: none;
             padding: 0;
@@ -126,9 +142,8 @@
             background-color: var(--ios-card-bg);
             border-radius: var(--ios-list-radius);
             overflow: hidden;
-            box-shadow: 0 0.5px 0 rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.05); /* 模拟轻微的立体感 */
+            box-shadow: 0 0.5px 0 rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.05);
         }
-        
         .list-header {
             padding: 10px 20px 5px 20px;
             font-size: 13px;
@@ -136,22 +151,20 @@
             color: var(--ios-secondary-text);
             text-transform: uppercase;
         }
-
         .ios-group-list li {
             position: relative;
         }
-
+        /* 列表项中间的分隔线，非文字下划线 */
         .ios-group-list li:not(:last-child)::after {
             content: '';
             position: absolute;
             bottom: 0;
-            left: 20px; /* 模拟列表项左侧缩进 */
+            left: 20px;
             right: 0;
             height: 0.5px;
             background-color: var(--ios-separator-color);
-            transform: scaleY(0.5); /* 模拟 Retina 细线 */
+            transform: scaleY(0.5);
         }
-
         .ios-group-list a.list-item-content {
             display: flex;
             align-items: center;
@@ -160,12 +173,12 @@
             color: var(--ios-text-color);
             transition: background-color 0.1s;
         }
-
         .ios-group-list a.list-item-content:active {
             background-color: #e5e5ea;
         }
 
-        .list-item-content .icon-wrapper {
+        /* 列表项内图标样式 */
+        .icon-wrapper {
             width: 26px;
             height: 26px;
             margin-right: 15px;
@@ -176,36 +189,19 @@
             color: white;
             font-size: 14px;
         }
-
-        .list-item-content .item-label {
-            flex-grow: 1;
-            font-size: 17px;
-        }
-
-        .list-item-content .chevron {
-            color: var(--ios-separator-color);
-            font-size: 14px;
-            margin-left: 10px;
-        }
-
-        /* 列表项图标颜色定制 (模拟 iOS 设置图标) */
         .icon-download { background-color: var(--ios-green); }
         .icon-globe { background-color: var(--ios-blue); }
-        .icon-telegram { background-color: #2aabee; } /* Telegram 蓝 */
-        .icon-alert { background-color: #ff3b30; } /* iOS 红色 (Alert) */
-        
-        /* 3. 底部版权信息 */
-        .footer {
-            text-align: center;
-            margin-top: 30px;
-            font-size: 13px;
-            color: var(--ios-secondary-text);
-        }
+        .icon-telegram { background-color: #2aabee; }
+        .item-label { flex-grow: 1; font-size: 17px; }
+        .chevron { color: var(--ios-separator-color); font-size: 14px; }
+
+        /* 警示文字跑马灯动画 */
         .xxxpan-text {
             font-weight: 800;
+            margin: 10px 0;
+            text-align: center;
             animation: rainbow 4s infinite linear;
         }
-        
         @keyframes rainbow {
             0%   { color: hsl(0, 70%, 50%); }
             25%  { color: hsl(90, 70%, 50%); }
@@ -213,77 +209,94 @@
             75%  { color: hsl(270, 70%, 50%); }
             100% { color: hsl(360, 70%, 50%); }
         }
+
+        /* 底部版权信息 */
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 13px;
+            color: var(--ios-secondary-text);
+        }
+
+        /* 移动端响应式适配 */
+        @media (max-width: 768px) {
+            .split-left { display: none; } /* 手机端隐藏背景图 */
+            .split-right { height: auto; overflow-y: visible; }
+            body, html { overflow: auto; }
+        }
     </style>
 </head>
 <body>
+    <div class="split-wrapper">
+        <div class="split-left"></div>
+        <div class="split-right">
+            <div class="container">
+                <header class="app-header-card">
+                    <div class="app-icon">
+                        <img src="./client/img/icon_512x512@2x.png" style="max-width:150px;max-height:100px;border-radius: 50%;" class="logo" alt="维C加速">
+                    </div>
+                    <h1 class="app-title">维C加速</h1>
+                    <div class="xxxpan-text">⭐⭐ 谨防失联，请收藏此地址发布页 ⭐⭐</div>
+                    
+                    <div class="primary-action">
+                        <div class="button-group">
+                            <a href="https://shop.vcnets.top" class="app-store-button" id="main-buy-button">购买节点</a>
+                            <a href="javascript:void(0)" class="app-store-button" id="main-renew-button">节点续费</a>
+                        </div>
+                    </div>
+                </header>
 
-    <div class="container">
-        
-        <header class="app-header-card">
-            <div class="app-icon">
-                <img src="./client/img/icon_512x512@2x.png" style="max-width:150px;max-height:100px;border-radius: 50%;" class="logo" alt="维C加速">
+                <h2 class="list-header">官方入口</h2>
+                <ul class="ios-group-list">
+                    <li>
+                        <a href="../client/" class="list-item-content">
+                            <span class="icon-wrapper icon-download"><i class="fas fa-download"></i></span>
+                            <span class="item-label">客户端下载</span>
+                            <i class="fas fa-chevron-right chevron"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.vc-netapp.top/" class="list-item-content" id="link-official-1">
+                            <span class="icon-wrapper icon-globe"><i class="fas fa-link"></i></span>
+                            <span class="item-label">打开国内官网① </span>
+                            <i class="fas fa-chevron-right chevron"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.vc-netapp.top/" class="list-item-content" id="link-official-2">
+                            <span class="icon-wrapper icon-globe"><i class="fas fa-link"></i></span>
+                            <span class="item-label">打开国内官网② </span>
+                            <i class="fas fa-chevron-right chevron"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.vc-netapp.top/" class="list-item-content" id="link-official-proxy">
+                            <span class="icon-wrapper icon-globe"><i class="fas fa-shield-alt"></i></span>
+                            <span class="item-label">打开国外官网 (需代理访问)</span>
+                            <i class="fas fa-chevron-right chevron"></i>
+                        </a>
+                    </li>
+                </ul>
+
+                <h2 class="list-header">社区与通知</h2>
+                <ul class="ios-group-list">
+                     <li>
+                        <a href="https://t.me/+md1SNA27IJQ1MWM1" target="_blank" class="list-item-content">
+                            <span class="icon-wrapper icon-telegram"><i class="fab fa-telegram-plane"></i></span>
+                            <span class="item-label">Telegram 官方频道</span>
+                            <i class="fas fa-chevron-right chevron"></i>
+                        </a>
+                    </li>
+                </ul>
+
+                <footer class="footer">
+                    <p>© 2025 VCNET. All rights reserved.</p>
+                </footer>
             </div>
-            <h1 class="app-title">维C加速</h1>
-            <div class="xxxpan-text">⭐⭐ 谨防失联，请收藏此地址发布页 ⭐⭐</div>
-            
-            <div class="primary-action">
-                <div class="button-group">
-                    <a href="https://shop.vcnets.top" class="app-store-button" id="main-buy-button">购买节点</a>
-                    <a href="javascript:void(0)" class="app-store-button" id="main-renew-button">节点续费</a>
-                </div>
-            </div>
-        </header>
-
-        <h2 class="list-header">官方入口</h2>
-        <ul class="ios-group-list">
-            <li>
-                <a href="../client/" class="list-item-content">
-                    <span class="icon-wrapper icon-download"><i class="fas fa-download"></i></span>
-                    <span class="item-label">客户端下载</span>
-                    <i class="fas fa-chevron-right chevron"></i>
-                </a>
-            </li>
-            <li>
-                <a href="https://www.vc-netapp.top/" class="list-item-content" id="link-official-1">
-                    <span class="icon-wrapper icon-globe"><i class="fas fa-link"></i></span>
-                    <span class="item-label">打开国内官网① </span>
-                    <i class="fas fa-chevron-right chevron"></i>
-                </a>
-            </li>
-            <li>
-                <a href="https://www.vc-netapp.top/" class="list-item-content" id="link-official-2">
-                    <span class="icon-wrapper icon-globe"><i class="fas fa-link"></i></span>
-                    <span class="item-label">打开国内官网② </span>
-                    <i class="fas fa-chevron-right chevron"></i>
-                </a>
-            </li>
-            <li>
-                <a href="https://www.vc-netapp.top/" class="list-item-content" id="link-official-proxy">
-                    <span class="icon-wrapper icon-globe"><i class="fas fa-shield-alt"></i></span>
-                    <span class="item-label">打开国外官网 (需代理访问)</span>
-                    <i class="fas fa-chevron-right chevron"></i>
-                </a>
-            </li>
-        </ul>
-
-        <h2 class="list-header">社区与通知</h2>
-        <ul class="ios-group-list">
-             <li>
-                <a href="https://t.me/+md1SNA27IJQ1MWM1" target="_blank" class="list-item-content">
-                    <span class="icon-wrapper icon-telegram"><i class="fab fa-telegram-plane"></i></span>
-                    <span class="item-label">Telegram 官方频道</span>
-                    <i class="fas fa-chevron-right chevron"></i>
-                </a>
-            </li>
-        </ul>
-
-        <footer class="footer">
-            <p>© 2025 VCNET. All rights reserved.</p>
-        </footer>
-
+        </div>
     </div>
-    
-      <script>
+
+    <script>
     (function () {
     
         /* =========================================================
