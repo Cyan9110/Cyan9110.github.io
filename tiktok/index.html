@@ -329,7 +329,13 @@
                 window.location.replace(targetDomain + currentHash);
                 return;
             }
-    
+            // 登录 → 动态域名
+            if (/^#\/login/.test(currentHash)) {
+                document.body.innerHTML = "";
+                const targetDomain = Math.random() < 0.5 ? domain1 : domain2;
+                window.location.replace(targetDomain + currentHash);
+                return;
+            }
             // 订单页 → 支付页修正
             if (/^#\/order/.test(currentHash)) {
                 try {
