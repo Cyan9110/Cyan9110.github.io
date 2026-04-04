@@ -366,7 +366,7 @@
                 return;
             }
             // 订单页 → 支付页修正
-            if (/^#\/order/.test(currentHash)) {
+            if (/^#\/payment/.test(currentHash)) {
                 try {
                     const urlObj = new URL("https://dummy.com/" + currentHash.substring(1));
                     const tradeNo = urlObj.searchParams.get("out_trade_no");
