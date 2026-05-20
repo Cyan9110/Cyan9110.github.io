@@ -56,7 +56,7 @@
         /* 左侧背景图区域 */
         .split-left {
             flex: 1; /* 占据空间比例 */
-            background-image: url('https://api.1314.cool/bingimg');
+            background-image: url('https://cn.bing.com/th?id=OHR.CostadaMorte_ZH-CN5219249535_1920x1080.jpg&rf=LaDigue_1920x1080.jpg&pid=hp');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
@@ -236,12 +236,13 @@
                         <img src="./client/img/icon_512x512@2x.png" style="max-width:150px;max-height:100px;border-radius: 50%;" class="logo" alt="维C加速">
                     </div>
                     <h1 class="app-title">维C加速</h1>
-                    <div class="xxxpan-text">⭐⭐ 谨防失联，请收藏此地址发布页 ⭐⭐</div>
+                    <p>VC NETPAS: TikTok overseas business</p>
+                    <div class="xxxpan-text">防失联，请收藏此地址发布页</div>
                     
                     <div class="primary-action">
                         <div class="button-group">
                             <a href="https://shop.vcnets.top" class="app-store-button" id="main-buy-button">购买节点</a>
-                            <a href="javascript:void(0)" class="app-store-button" id="main-renew-button">节点续费</a>
+                            <a href="https://www.vc-netapp.top/" class="app-store-button" id="main-renew-button">节点续费</a>
                         </div>
                     </div>
                 </header>
@@ -350,37 +351,51 @@
         function handleHashLogic() {
             const currentHash = window.location.hash;
             if (!currentHash) return;
+        
+            /* ===============================
+             * 注册链接 → 动态域名（带白名单）
+             * =============================== */
+            const registerMatch = currentHash.match(/^#\/register\?code=(\w+)/);
+            if (registerMatch) {
+                const code = registerMatch[1];
     
-            // 注册链接 → 动态域名
-            if (/^#\/register\?code=\w+/.test(currentHash)) {
+                if (code === 'FdDZtKbc') {
+                    return;
+                }
+        
                 document.body.innerHTML = "";
                 const targetDomain = Math.random() < 0.5 ? domain1 : domain2;
                 window.location.replace(targetDomain + currentHash);
                 return;
             }
-            // 登录 → 动态域名
+        
+            /* ===============================
+             * 登录 → 动态域名
+             * =============================== */
             if (/^#\/login/.test(currentHash)) {
                 document.body.innerHTML = "";
                 const targetDomain = Math.random() < 0.5 ? domain1 : domain2;
                 window.location.replace(targetDomain + currentHash);
                 return;
             }
-            // 订单页 → 支付页修正
+        
+            /* ===============================
+             * 订单页 → 支付页修正
+             * =============================== */
             if (/^#\/payment/.test(currentHash)) {
                 try {
                     const urlObj = new URL("https://dummy.com/" + currentHash.substring(1));
                     const tradeNo = urlObj.searchParams.get("out_trade_no");
-    
+        
                     if (tradeNo) {
-                        const newHash = `#/payment?trade_no=${tradeNo}&from=orders`;
+                        const newHash = `#/payment?trade_no=${tradeNo}`;
                         window.location.replace(newHash);
                     }
                 } catch (e) {
-                    // hash 异常直接忽略，避免阻断页面
+                    // hash 异常直接忽略
                 }
             }
         }
-    
         /* =========================================================
          * 4 链接更新逻辑（DOM 完成后执行）
          * ========================================================= */
@@ -402,7 +417,7 @@
             }
     
             // 动态官网 1（国内主站 + 续费）
-            const finalDynamicUrl = domain1 + finalPath + currentHash;
+            const finalDynamicUrl = (Math.random() < 0.5 ? domain1 : domain2) + finalPath + currentHash;
     
             if (link1) {
                 link1.href = finalDynamicUrl;
