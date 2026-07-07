@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-cn">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="renderer" content="webkit">
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
@@ -12,21 +12,21 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script charset="UTF-8" id="LA_COLLECT" src="//sdk.51.la/js-sdk-pro.min.js"></script>
     <script>LA.init({id:"3LdNey2DYD7TBmHS",ck:"3LdNey2DYD7TBmHS"})</script>
-    <style type="text/css">
-        /* --- 颜色变量 (Cyber Grid Theme) --- */
+    <style>
+        /* --- 颜色变量 --- */
         :root {
             --bg-dark: #121212;
             --grid-color: #1c1c1c;
             --text-light: #f0f0f0;
-            --accent-blue: #00e0ff; /* 电光蓝 */
+            --accent-blue: #00e0ff; 
             --accent-glow: 0 0 15px rgba(0, 224, 255, 0.6);
             --card-bg: #1e1e1e;
             --border-radius-lg: 12px;
             --shadow-subtle: 0 5px 15px rgba(0, 0, 0, 0.5);
         }
 
-        /* --- 全局样式 --- */
         * { box-sizing: border-box; }
+        [hidden] { display: none !important; }
         body {
             font-family: 'Space Grotesk', sans-serif;
             color: var(--text-light);
@@ -37,247 +37,95 @@
             display: flex;
             justify-content: center;
             align-items: flex-start;
-            /* 模拟微弱的背景网格 */
             background-image: linear-gradient(to right, var(--grid-color) 1px, transparent 1px),
                               linear-gradient(to bottom, var(--grid-color) 1px, transparent 1px);
             background-size: 50px 50px;
         }
 
-        .container {
-            width: 100%;
-            max-width: 1100px;
-        }
+        .container { width: 100%; max-width: 1100px; }
         
-        /* --- 头部区域 --- */
         .header {
             text-align: center;
             margin-bottom: 50px;
             padding-bottom: 20px;
             border-bottom: 1px solid var(--grid-color);
         }
-        .logo {
-            width: 80px;
-            height: 80px;
-            margin-bottom: 15px;
-            border-radius: 20%;
-            box-shadow: var(--shadow-subtle);
-        }
-        .title {
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: var(--accent-blue);
-            text-shadow: 0 0 10px rgba(0, 224, 255, 0.3);
-            margin: 0;
-        }
-        .subtitle {
-            font-size: 1.1rem;
-            color: #aaa;
-            margin-top: 5px;
-        }
+        .logo { width: 80px; height: 80px; margin-bottom: 15px; border-radius: 20%; box-shadow: var(--shadow-subtle); }
+        .title { font-size: 2.5rem; font-weight: 700; color: var(--accent-blue); text-shadow: 0 0 10px rgba(0, 224, 255, 0.3); margin: 0; }
+        .subtitle { font-size: 1.1rem; color: #aaa; margin-top: 15px; }
 
-        /* --- 下载卡片网格布局 --- */
-        .download-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 25px;
-            margin-bottom: 40px;
-        }
-
-        .platform-card {
-            background-color: var(--card-bg);
-            border: 1px solid var(--grid-color);
-            border-radius: var(--border-radius-lg);
-            padding: 25px;
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); /* 优化过渡效果 */
-            box-shadow: var(--shadow-subtle);
-            position: relative;
-            overflow: hidden;
-        }
-        
-        /* 1. 增强卡片 Hover 发光效果 */
-        .platform-card:hover {
-            border-color: #0088aa; 
-            box-shadow: 0 0 10px rgba(0, 224, 255, 0.4); 
-            transform: translateY(-3px); /* 向上浮动 */
-        }
-
-        /* 推荐/激活状态 */
-        .platform-card.recommended {
-            border-color: var(--accent-blue);
-            box-shadow: var(--accent-glow), 0 0 5px var(--accent-blue);
-            transform: scale(1.03);
-            z-index: 10;
-        }
-        /* 推荐卡片 Hover 发光效果更强 */
-        .platform-card.recommended:hover {
-            border-color: #00e0ff;
-            box-shadow: 0 0 20px rgba(0, 224, 255, 0.8), 0 0 8px #00e0ff;
-            transform: scale(1.04); 
-        }
-
-        .platform-card.recommended .card-header::after {
-            content: '当前设备';
-            position: absolute;
-            top: 15px;
-            right: -30px;
-            background-color: var(--accent-blue);
-            color: var(--bg-dark);
-            padding: 2px 35px;
-            font-size: 0.75rem;
-            font-weight: 700;
-            transform: rotate(45deg);
-            box-shadow: 0 0 5px var(--accent-blue);
-        }
-
-        .card-header {
+        .version-control {
             display: flex;
             align-items: center;
-            margin-bottom: 20px;
-        }
-        .platform-icon {
-            font-size: 3rem;
-            color: var(--accent-blue);
-            margin-right: 15px;
-        }
-        .platform-name {
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin: 0;
-        }
-        .platform-name span {
-            display: block;
-            font-size: 0.85rem;
-            font-weight: 500;
-            color: #999;
+            justify-content: center;
+            gap: 12px;
+            margin: 25px 0;
         }
 
-        .variant-list {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        .variant-item {
-            display: flex;
-            justify-content: space-beeen;
-            align-items: center;
-            padding: 12px 0;
-            border-top: 1px dashed var(--grid-color);
-        }
-        .variant-item:first-child { border-top: none; }
-
-        .version-info {
-            flex-grow: 1;
-            text-align: left;
-            margin-right: 10px;
-        }
-        .version-info small {
-            display: block;
-            color: #888;
-            font-size: 0.8rem;
-        }
-
-        /* --- 下载按钮 --- */
-        .download-btn {
-            background-color: var(--accent-blue);
-            color: var(--bg-dark);
-            padding: 8px 20px;
-            border-radius: 20px;
-            text-decoration: none;
-            font-weight: 700;
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-            white-space: nowrap;
-            box-shadow: none;
-        }
-
-        /* 2. 增强按钮 Hover/Focus 发光效果 */
-        .download-btn:hover, .download-btn:focus {
-            background-color: #00ceff;
-            /* 更强烈的发光和 Z 轴阴影 */
-            box-shadow: 0 0 15px rgba(0, 224, 255, 0.9), 0 4px 10px rgba(0, 0, 0, 0.4); 
-            transform: translateY(-2px);
-            outline: none;
-        }
-        
-        .download-btn.buy-link {
-            background-color: #444;
-            color: var(--text-light);
-            border: 1px solid #666;
-            box-shadow: none !important;
-        }
-        .download-btn.buy-link:hover {
-            background-color: #555;
-            box-shadow: none !important;
-            transform: none;
-        }
-
-        /* --- 辅助信息和 CTA (保持不变) --- */
-        .footer-section {
-            display: flex;
-            gap: 25px;
-        }
-        .support-info {
-            flex: 2;
-            padding: 20px;
+        #version-selector {
             background-color: #1a1a1a;
-            border-radius: var(--border-radius-lg);
-            border: 1px solid #333;
-            font-size: 0.9rem;
-        }
-        .support-info p {
-            margin: 10px 0;
-            color: #aaa;
-        }
-        .support-info a {
             color: var(--accent-blue);
-            text-decoration: none;
-        }
-        .support-info a:hover {
-            text-decoration: underline;
-        }
-
-        .cta-group {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-        .cta-btn {
-            text-align: center;
-            padding: 15px 20px;
-            border-radius: var(--border-radius-lg);
-            font-size: 1.1rem;
+            border: 2px solid #333;
+            padding: 8px 16px;
+            border-radius: 10px;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.95rem;
             font-weight: 700;
-            transition: all 0.3s;
-        }
-        .cta-btn.primary {
-            background-color: #5856d6;
-            color: white;
-            box-shadow: 5px 5px 15px rgba(88, 86, 214, 0.4);
-        }
-        .cta-btn.primary:hover {
-            background-color: #4a48c4;
-            box-shadow: 0 5px 20px rgba(88, 86, 214, 0.6);
-            transform: translateY(-2px);
-        }
-        .cta-btn.secondary {
-            background-color: transparent;
-            border: 2px solid var(--accent-blue);
-            color: var(--accent-blue);
-        }
-        .cta-btn.secondary:hover {
-            background-color: rgba(0, 224, 255, 0.1);
-            transform: translateY(-2px);
+            cursor: pointer;
+            outline: none;
+            transition: all 0.3s ease;
+            appearance: none;
+            -webkit-appearance: none;
+            min-width: 160px;
+            text-align: center;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%2300e0ff' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: calc(100% - 12px) center;
+            padding-right: 35px;
         }
 
-        /* --- 响应式设计 --- */
-        @media (max-width: 900px) {
-            .footer-section {
-                flex-direction: column;
-            }
-            .title {
-                font-size: 2rem;
-            }
+        #version-selector:hover {
+            border-color: var(--accent-blue);
+            box-shadow: 0 0 10px rgba(0, 224, 255, 0.2);
+        }
+
+        #version-selector:focus {
+            border-color: var(--accent-blue);
+            box-shadow: var(--accent-glow);
+        }
+
+        .download-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; margin-bottom: 40px; }
+        .platform-card { background-color: var(--card-bg); border: 1px solid var(--grid-color); border-radius: var(--border-radius-lg); padding: 25px; transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); box-shadow: var(--shadow-subtle); position: relative; overflow: hidden; }
+        .platform-card:hover { border-color: #0088aa; box-shadow: 0 0 10px rgba(0, 224, 255, 0.4); transform: translateY(-3px); }
+        .platform-card.recommended { border-color: var(--accent-blue); box-shadow: var(--accent-glow), 0 0 5px var(--accent-blue); transform: scale(1.03); z-index: 10; }
+        .platform-card.recommended .card-header::after { content: '当前设备'; position: absolute; top: 15px; right: -30px; background-color: var(--accent-blue); color: var(--bg-dark); padding: 2px 35px; font-size: 0.75rem; font-weight: 700; transform: rotate(45deg); box-shadow: 0 0 5px var(--accent-blue); }
+
+        .card-header { display: flex; align-items: center; margin-bottom: 20px; }
+        .platform-icon { font-size: 3rem; color: var(--accent-blue); margin-right: 15px; }
+        .platform-name { font-size: 1.5rem; font-weight: 700; margin: 0; }
+        .platform-name span { display: block; font-size: 0.85rem; font-weight: 500; color: #999; }
+        .variant-list { list-style: none; padding: 0; margin: 0; }
+        .variant-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-top: 1px dashed var(--grid-color); }
+        .variant-item:first-child { border-top: none; }
+        .version-info { flex-grow: 1; text-align: left; margin-right: 10px; }
+        .version-info small { display: block; color: #888; font-size: 0.8rem; }
+
+        .download-btn { background-color: var(--accent-blue); color: var(--bg-dark); padding: 8px 20px; border-radius: 20px; text-decoration: none; font-weight: 700; transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); white-space: nowrap; }
+        .download-btn:hover { background-color: #00ceff; box-shadow: 0 0 15px rgba(0, 224, 255, 0.9); transform: translateY(-2px); }
+
+        .footer-section { display: flex; gap: 25px; }
+        .support-info { flex: 2; padding: 20px; background-color: #1a1a1a; border-radius: var(--border-radius-lg); border: 1px solid #333; font-size: 0.9rem; }
+        .support-info p { margin: 10px 0; color: #aaa; }
+        .support-info a { color: var(--accent-blue); text-decoration: none; }
+        .cta-group { flex: 1; display: flex; flex-direction: column; gap: 15px; }
+        .cta-btn { text-align: center; padding: 15px 20px; border-radius: var(--border-radius-lg); font-size: 1.1rem; font-weight: 700; transition: all 0.3s; text-decoration: none; }
+        .cta-btn.primary { background-color: #5856d6; color: white; box-shadow: 5px 5px 15px rgba(88, 86, 214, 0.4); }
+        .cta-btn.secondary { border: 2px solid var(--accent-blue); color: var(--accent-blue); }
+
+        @media (max-width: 900px) { 
+            .footer-section { flex-direction: column; } 
+            .title { font-size: 2rem; }
+            .version-control { flex-direction: column; gap: 8px; }
         }
     </style>
 </head>
@@ -286,345 +134,316 @@
         <header class="header">
             <img src="./img/icon_512x512@2x.png" alt="维C加速 Logo" class="logo">
             <h1 class="title">维C加速客户端下载</h1>
+            
+            <div class="version-control">
+                <label for="version-selector" style="color: #888; font-size: 0.9rem;">切换历史版本:</label>
+                <select id="version-selector">
+                    <option value="1.1.3" selected>v1.1.3</option>
+                    <option value="1.0.9">v1.0.9</option>
+                    <option value="1.0.7">v1.0.7</option>
+                    <option value="1.0.6">v1.0.6</option>
+                </select>
+            </div>
+
             <p class="subtitle">系统自动分析中，请下载适配您系统架构的客户端。<span id="os-display" style="margin-left: 10px; font-weight: bold; color: var(--accent-blue);"></span></p>
+            <p>如账户拥有有效流量/时长，而客户端显示无节点，请卸载客户端后，更换版本安装</p>
         </header>
 
         <main class="download-grid" id="download-matrix">
-            
+            <!-- Windows -->
             <div class="platform-card" data-os="windows">
                 <div class="card-header">
                     <i class="fab fa-windows platform-icon"></i>
-                    <div>
-                        <h2 class="platform-name">Windows 电脑 <span>Windows / PC / Win10+</span></h2>
-                    </div>
+                    <div><h2 class="platform-name">Windows 电脑 <span>Windows / PC</span></h2></div>
                 </div>
                 <ul class="variant-list">
                     <li class="variant-item" data-os-variant="windows-setup">
-                        <div class="version-info">安装版本 (推荐) <small data-version-target="true"></small></div>
-                        <a href="#" class="download-btn" rel="nofollow" target="_blank" data-download-type="windows-setup">下载 EXE</a>
+                        <div class="version-info">Windows x64 安装版 (推荐) <small data-version-target="true">Windows 10+ / Intel / AMD</small></div>
+                        <a href="#" class="download-btn" rel="nofollow" target="_blank">下载 EXE</a>
                     </li>
-                    <li class="variant-item" data-os-variant="windows-zip">
-                        <div class="version-info">免安装版本 (ZIP) <small data-version-target="true"></small></div>
-                        <a href="#" class="download-btn" rel="nofollow" target="_blank" data-download-type="windows-zip">下载 ZIP</a>
+                    <li class="variant-item" data-os-variant="windows-arm64" data-min-version="1.1.3">
+                        <div class="version-info">Windows ARM64 安装版 <small data-version-target="true">Surface / ARM64 设备</small></div>
+                        <a href="#" class="download-btn" rel="nofollow" target="_blank">下载 EXE</a>
+                    </li>
+                    <li class="variant-item" data-os-variant="windows-zip" data-max-version="1.0.9" hidden>
+                        <div class="version-info">免安装版本 (ZIP) <small data-version-target="true">便捷运行</small></div>
+                        <a href="#" class="download-btn" rel="nofollow" target="_blank">下载 ZIP</a>
                     </li>
                 </ul>
             </div>
 
+            <!-- macOS -->
             <div class="platform-card" data-os="macos">
                 <div class="card-header">
                     <i class="fab fa-apple platform-icon"></i>
-                    <div>
-                        <h2 class="platform-name">macOS 电脑 <span>MacBook / iMac / OS X</span></h2>
-                    </div>
+                    <div><h2 class="platform-name">macOS 电脑 <span>MacBook / iMac</span></h2></div>
                 </div>
                 <ul class="variant-list">
                     <li class="variant-item" data-os-variant="macos-arm64">
                         <div class="version-info">M 系列处理器 <small data-version-target="true">M1 / M2 / M3 / M4 (ARM64)</small></div>
-                        <a href="#" class="download-btn" rel="nofollow" target="_blank" data-download-type="macos-arm64">下载 DMG</a>
+                        <a href="#" class="download-btn" rel="nofollow" target="_blank" data-dynamic-label="macos">下载 PKG</a>
                     </li>
                     <li class="variant-item" data-os-variant="macos-amd64">
                         <div class="version-info">Intel 系列处理器 <small data-version-target="true">老款 Mac (AMD64)</small></div>
-                        <a href="#" class="download-btn" rel="nofollow" target="_blank" data-download-type="macos-amd64">下载 DMG</a>
-                    </li>
-                </ul>
-            </div>
-            
-            <div class="platform-card" data-os="android">
-                <div class="card-header">
-                    <i class="fab fa-android platform-icon"></i>
-                    <div>
-                        <h2 class="platform-name">Android / 鸿蒙 <span>手机 / 平板 / 电视TV</span></h2>
-                    </div>
-                </div>
-                <ul class="variant-list">
-                    <li class="variant-item" data-os-variant="android-arm64">
-                        <div class="version-info">新机型 / 电视TV (ARM64) <small data-version-target="true">主流安卓设备</small></div>
-                        <a href="#" class="download-btn" rel="nofollow" target="_blank" data-download-type="android-arm64">下载 APK</a>
-                    </li>
-                    <li class="variant-item" data-os-variant="android-arm32">
-                        <div class="version-info">老机型 / 兼容版本 (ARM32) <small data-version-target="true">部分旧款手机</small></div>
-                        <a href="#" class="download-btn" rel="nofollow" target="_blank" data-download-type="android-arm32">下载 APK</a>
-                    </li>
-                    <li class="variant-item" data-os-variant="android-x86">
-                        <div class="version-info">平板电脑 (x86) <small data-version-target="true">特殊平板或模拟器</small></div>
-                        <a href="#" class="download-btn" rel="nofollow" target="_blank" data-download-type="android-x86">下载 APK</a>
+                        <a href="#" class="download-btn" rel="nofollow" target="_blank" data-dynamic-label="macos">下载 PKG</a>
                     </li>
                 </ul>
             </div>
 
+            <!-- Android -->
+            <div class="platform-card" data-os="android">
+                <div class="card-header">
+                    <i class="fab fa-android platform-icon"></i>
+                    <div><h2 class="platform-name">Android / 鸿蒙 <span>手机 / 平板 / 电视</span></h2></div>
+                </div>
+                <ul class="variant-list">
+                    <li class="variant-item" data-os-variant="android-arm64">
+                        <div class="version-info">新机型 / 电视 (ARM64) <small data-version-target="true">主流安卓设备</small></div>
+                        <a href="#" class="download-btn" rel="nofollow" target="_blank">下载 APK</a>
+                    </li>
+                    <li class="variant-item" data-os-variant="android-arm32">
+                        <div class="version-info">老机型 / 兼容版 (ARM32) <small data-version-target="true">旧款手机</small></div>
+                        <a href="#" class="download-btn" rel="nofollow" target="_blank">下载 APK</a>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Android TV -->
+            <div class="platform-card" data-os="android-tv" data-min-version="1.1.3">
+                <div class="card-header">
+                    <i class="fas fa-tv platform-icon"></i>
+                    <div><h2 class="platform-name">Android TV <span>电视 / 盒子</span></h2></div>
+                </div>
+                <ul class="variant-list">
+                    <li class="variant-item" data-os-variant="android-tv-arm64">
+                        <div class="version-info">新款电视 / 盒子 (ARM64) <small data-version-target="true">主流 Android TV 设备</small></div>
+                        <a href="#" class="download-btn" rel="nofollow" target="_blank">下载 APK</a>
+                    </li>
+                    <li class="variant-item" data-os-variant="android-tv-arm32">
+                        <div class="version-info">旧款电视 / 盒子 (ARM32) <small data-version-target="true">兼容老设备</small></div>
+                        <a href="#" class="download-btn" rel="nofollow" target="_blank">下载 APK</a>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- iOS -->
             <div class="platform-card" data-os="ios">
                 <div class="card-header">
                     <i class="fas fa-mobile-alt platform-icon"></i>
-                    <div>
-                        <h2 class="platform-name">iOS 苹果手机 <span>iPhone / iPad / App Store</span></h2>
-                    </div>
-                    
+                    <div><h2 class="platform-name">iOS 苹果手机 <span>iPhone / iPad</span></h2></div>
                 </div>
                 <ul class="variant-list">
-                    <li class="variant-item" data-os-variant="ios">
-                        <div class="version-info">AppStore 官方渠道 <small>第三方客户端</small><small>Shadowrocket(小火箭)</small></div>
+                    <li class="variant-item">
+                        <div class="version-info">AppStore 官方渠道 <small>Shadowrocket(小火箭)</small></div>
                         <a href="https://shop.vcnets.top" class="download-btn" rel="nofollow" target="_blank">点击获取</a>
                     </li>
                 </ul>
             </div>
+
+            <!-- Linux -->
+            <div class="platform-card" data-os="linux" data-max-version="1.0.9" hidden>
+                <div class="card-header">
+                    <i class="fab fa-linux platform-icon"></i>
+                    <div><h2 class="platform-name">Linux 电脑 <span>Ubuntu / Fedora / Debian</span></h2></div>
+                </div>
+                <ul class="variant-list">
+                    <li class="variant-item" data-os-variant="linux-deb">
+                        <div class="version-info">Debian / Ubuntu <small data-version-target="true">通用安装包</small></div>
+                        <a href="#" class="download-btn" rel="nofollow" target="_blank">下载 DEB</a>
+                    </li>
+                    <li class="variant-item" data-os-variant="linux-rpm">
+                        <div class="version-info">Fedora / CentOS <small data-version-target="true">通用安装包</small></div>
+                        <a href="#" class="download-btn" rel="nofollow" target="_blank">下载 RPM</a>
+                    </li>
+                </ul>
+            </div>
+
         </main>
 
         <section class="footer-section">
             <div class="support-info">
                 <h3>🛠 客户端部署指南</h3>
-                <p>⚠️ Windows 提示： 如果运行客户端时出现错误，请 <a href="https://down.vcnetapp.top/Microsoft_Visual_C++_4.7.25.0306.exe" target="_blank">下载 VC++ 运行库合集</a>。</p>
-                <p>🍎 macOS 提示： 遇到「无法开启App，因为来自未知的开发者」提示时，请 <a href="https://support.apple.com/zh-cn/guide/mac-help/mh40616/mac" target="_blank">参考 Apple 官方帮助文档</a> 进行授权。</p>
-                <p>🌐 浏览器兼容性： 若在微信或 QQ 浏览器内无法下载，请使用系统自带的浏览器打开此页面。</p>
+                <p>⚠️ Windows 提示： 若运行报错，请 <a href="https://down.vcnetapp.top/Microsoft_Visual_C++_4.7.25.0306.exe" target="_blank">下载 VC++ 运行库</a>。</p>
+                <p>🍎 macOS 提示： 遇到「无法开启App」请 <a href="https://support.apple.com/zh-cn/guide/mac-help/mh40616/mac" target="_blank">参考官方授权文档</a>。</p>
             </div>
             <div class="cta-group">
                 <a class="cta-btn primary" href="https://shop.vcnets.top" target="_blank">购买加速节点</a>
-                <a class="cta-btn secondary" href="https://doc.vcnets.top/doc/1/" target="_blank">查看详细使用教程</a>
+                <a class="cta-btn secondary" href="https://doc.vcnets.top/doc/1/" target="_blank">查看使用教程</a>
             </div>
         </section>
-
     </div>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // --- 核心配置：集中管理版本号 ---
-        const LATEST_VERSION = '1.0.7';
-        const BASE_URL = 'https://down.vcnetapp.top/VcNet-';
+document.addEventListener('DOMContentLoaded', function() {
+    const BASE_URL = 'https://down.vcnetapp.top/VcNet-';
+    const versionSelector = document.getElementById('version-selector');
+    const osDisplay = document.getElementById('os-display');
+    const grid = document.getElementById('download-matrix');
+    const desktopOS = ['windows', 'macos', 'linux'];
+    const mobileOS = ['android', 'android-tv', 'ios'];
+    const ua = navigator.userAgent;
+    let detectedOS = null;
 
-        const DOWNLOAD_LINKS = {
-            'windows-setup': `${BASE_URL}${LATEST_VERSION}-windows-amd64-setup.exe`,
-            'windows-zip': `${BASE_URL}${LATEST_VERSION}-windows-amd64.zip`,
-            'macos-arm64': `${BASE_URL}${LATEST_VERSION}-macos-arm64.dmg`,
-            'macos-amd64': `${BASE_URL}${LATEST_VERSION}-macos-amd64.dmg`,
-            'android-arm64': `${BASE_URL}${LATEST_VERSION}-android-arm64-v8a.apk`,
-            'android-arm32': `${BASE_URL}${LATEST_VERSION}-android-armeabi-v7a.apk`,
-            'android-x86': `${BASE_URL}${LATEST_VERSION}-android-x86_64.apk`,
-        };
-        
-        // 定义卡片分组顺序
-        const desktopOS = ['windows', 'macos'];
-        const mobileOS = ['android', 'ios'];
-        const osDisplay = document.getElementById('os-display');
-        const ua = navigator.userAgent; 
+    function compareVersions(a, b) {
+        const left = a.split('.').map(Number);
+        const right = b.split('.').map(Number);
+        const length = Math.max(left.length, right.length);
 
-        // --- 1. 更新所有版本号显示和下载链接 ---
-        function populateVersionsAndLinks() {
-            document.querySelectorAll('.variant-item').forEach(item => {
-                const variant = item.getAttribute('data-os-variant');
-                
-                // 更新版本号文本 (small 标签)
-                const smallTag = item.querySelector('.version-info small');
-                if (smallTag && smallTag.hasAttribute('data-version-target')) {
-                    const existingText = smallTag.textContent.trim();
-                    smallTag.textContent = existingText ? `${existingText} v${LATEST_VERSION}` : `最新版 v${LATEST_VERSION}`;
-                }
-
-                // 更新下载链接 (a 标签)
-                const downloadBtn = item.querySelector('.download-btn');
-                if (downloadBtn && DOWNLOAD_LINKS[variant]) {
-                    downloadBtn.href = DOWNLOAD_LINKS[variant];
-                }
-            });
+        for (let i = 0; i < length; i++) {
+            const diff = (left[i] || 0) - (right[i] || 0);
+            if (diff !== 0) return diff;
         }
+        return 0;
+    }
 
-        // --- 2. 设备信息收集和架构推断核心逻辑 ---
-        async function collectDeviceInfo() {
-            let info = {
-                arch: '',
-                platformName: '',
-                isAndroid: /Android/i.test(ua),
-                isWindows: /Win/i.test(ua),
-                isMacOS: /Macintosh/i.test(ua) || navigator.platform.startsWith('Mac'),
-                isIOS: /iPhone|iPad|iPod/i.test(ua),
-                isEmulator: false,
-                uaCH: null
+    function isVersionAvailable(element, version) {
+        const minVersion = element.getAttribute('data-min-version');
+        const maxVersion = element.getAttribute('data-max-version');
+
+        if (minVersion && compareVersions(version, minVersion) < 0) return false;
+        if (maxVersion && compareVersions(version, maxVersion) > 0) return false;
+        return true;
+    }
+
+    function setVisible(element, visible) {
+        element.hidden = !visible;
+        element.style.display = visible ? '' : 'none';
+    }
+
+    function getDownloadLinks(version) {
+        if (version === '1.1.3') {
+            return {
+                'windows-setup': `${BASE_URL}${version}-windows-x64-setup.exe`,
+                'windows-arm64': `${BASE_URL}${version}-windows-arm64-setup.exe`,
+                'macos-arm64': `${BASE_URL}${version}-macos-arm64.pkg`,
+                'macos-amd64': `${BASE_URL}${version}-macos-amd64.pkg`,
+                'android-arm64': `${BASE_URL}${version}-android-arm64-v8a.apk`,
+                'android-arm32': `${BASE_URL}${version}-android-armeabi-v7a.apk`,
+                'android-tv-arm64': `${BASE_URL}${version}-android-tv-arm64-v8a.apk`,
+                'android-tv-arm32': `${BASE_URL}${version}-android-tv-armeabi-v7a.apk`,
             };
-
-            // ** UA-CH 优先获取 **
-            if (navigator.userAgentData && navigator.userAgentData.getHighEntropyValues) {
-                try {
-                    var hints = await navigator.userAgentData.getHighEntropyValues([
-                        'architecture',
-                        'platform',
-                        'model',
-                        'bitness'
-                    ]);
-
-                    info.uaCH = hints;
-                    info.arch = hints.architecture || '';
-                    info.platformName = hints.platform || '';
-
-                    // 重新校准 OS 变量
-                    info.isAndroid = hints.platform === 'Android';
-                    info.isWindows = hints.platform === 'Windows';
-                    info.isMacOS = hints.platform === 'macOS';
-
-                    /* Android 模拟器识别 */
-                    if (
-                        info.isAndroid &&
-                        hints.model &&
-                        /sdk|emulator|android sdk/i.test(hints.model)
-                    ) {
-                        info.isEmulator = true;
-                    }
-
-                } catch (e) {
-                    // UA-CH 失败时，保留基于 UA 字符串的默认 OS 判断
-                }
-            } else {
-                 // 浏览器不支持 UA-CH，使用 UA 字符串作为平台名
-                 info.platformName = info.isWindows ? 'Windows' : (info.isMacOS ? 'macOS' : (info.isAndroid ? 'Android' : (info.isIOS ? 'iOS' : 'Other')));
-            }
-
-
-            /* ---- UA 字符串 Fallback (如果 arch 为空) ---- */
-            if (!info.arch) {
-                if (/x86_64|x86/i.test(ua)) info.arch = 'x86';
-                else if (/arm64|aarch64/i.test(ua)) info.arch = 'arm64';
-            }
-
-
-            /* ---- Android 架构强力兜底 (解决 arch 为空的问题) ---- */
-            if (info.isAndroid && !info.arch) {
-                
-                // 优先使用 bitness 推断，如果 bitness 存在
-                if (info.uaCH && info.uaCH.bitness === '64') {
-                     info.arch = 'arm64';
-                }
-                // 其次使用模拟器/主流手机判断
-                else {
-                    info.arch = info.isEmulator ? 'x86' : 'arm64';
-                }
-            }
-            
-            // 最终 Fallback: 如果 arch 还是空 (例如，iOS, 或其他)，设为 'unknown'
-            if (!info.arch) {
-                info.arch = 'unknown';
-            }
-
-            return info;
         }
 
-        // --- 3. 渲染逻辑 (使用 collectDeviceInfo 的结果) ---
-        async function detectAndRender() {
-            const info = await collectDeviceInfo();
-            
-            // 实时显示检测结果给用户
-            let displayArch = info.arch.toUpperCase() || '未知架构';
-            if (osDisplay) {
-                osDisplay.textContent = ` (您的系统架构: ${info.platformName} ${displayArch})`;
+        return {
+            'windows-setup': `${BASE_URL}${version}-windows-amd64-setup.exe`,
+            'windows-zip': `${BASE_URL}${version}-windows-amd64.zip`,
+            'macos-arm64': `${BASE_URL}${version}-macos-arm64.dmg`,
+            'macos-amd64': `${BASE_URL}${version}-macos-amd64.dmg`,
+            'android-arm64': `${BASE_URL}${version}-android-arm64-v8a.apk`,
+            'android-arm32': `${BASE_URL}${version}-android-armeabi-v7a.apk`,
+            'android-x86': `${BASE_URL}${version}-android-x86_64.apk`,
+            'linux-deb': `${BASE_URL}${version}-linux-amd64.deb`,
+            'linux-rpm': `${BASE_URL}${version}-linux-amd64.rpm`,
+        };
+    }
+
+    function updateVersionDescriptions(version) {
+        document.querySelectorAll('.variant-item').forEach(item => {
+            const smallTag = item.querySelector('.version-info small[data-version-target="true"]');
+            if (!smallTag) return;
+
+            if (!item.hasAttribute('data-original-desc')) {
+                item.setAttribute('data-original-desc', smallTag.textContent.split(' v')[0]);
             }
+            smallTag.textContent = `${item.getAttribute('data-original-desc')} v${version}`;
+        });
+    }
 
-            let osToPrepend = null;
-            let recommendedVariant = null;
+    function updateDownloadButtons(version, downloadLinks) {
+        document.querySelectorAll('.variant-item').forEach(item => {
+            const variant = item.getAttribute('data-os-variant');
+            const btn = item.querySelector('.download-btn');
+            if (!btn) return;
 
-            // --- B. 确定最匹配的系统和版本变体 ---
-            if (info.isIOS) {
-                osToPrepend = 'ios';
-                recommendedVariant = 'ios';
-            } else if (info.isAndroid) {
-                osToPrepend = 'android';
-                
-                if (info.arch.startsWith('arm64')) {
-                    recommendedVariant = 'android-arm64';
-                } else if (info.arch.startsWith('x86')) {
-                    recommendedVariant = 'android-x86';
-                } else {
-                    recommendedVariant = 'android-arm32';
-                }
-            } else if (info.isWindows) {
-                osToPrepend = 'windows';
-                recommendedVariant = 'windows-setup';
-            } else if (info.isMacOS) {
-                osToPrepend = 'macos';
-                if (info.arch.startsWith('arm')) { 
-                    recommendedVariant = 'macos-arm64';
-                } else {
-                    recommendedVariant = 'macos-amd64';
-                }
+            if (btn.dataset.dynamicLabel === 'macos') {
+                btn.textContent = version === '1.1.3' ? '下载 PKG' : '下载 DMG';
             }
-
-            // --- C. 设备类型优先排序和高亮 ---
-            if (osToPrepend) {
-                const downloadGrid = document.getElementById('download-matrix');
-                const allCards = Array.from(downloadGrid.querySelectorAll('.platform-card'));
-                let targetCardOrder = [];
-
-                // 确定当前设备类型，以及主/次要分组
-                const isMobileDevice = mobileOS.includes(osToPrepend);
-                const primaryGroup = isMobileDevice ? mobileOS : desktopOS;
-                
-                // 1. 将检测到的卡片放在第一位
-                targetCardOrder.push(osToPrepend);
-
-                // 2. 将同类型且非检测到的卡片放在第二位 (保持设备类型内顺序)
-                const otherPrimaryOs = primaryGroup.filter(os => os !== osToPrepend);
-                targetCardOrder.push(...otherPrimaryOs);
-
-                // 3. 将异类型卡片放在最后 
-                if (isMobileDevice) {
-                    targetCardOrder.push('windows', 'macos'); 
-                } else {
-                    targetCardOrder.push('android', 'ios');
-                }
-                
-                // 过滤掉重复项，确保最终列表唯一
-                const finalOrder = [...new Set(targetCardOrder)];
-
-                // 4. 重新排列 DOM
-                const cardMap = {};
-                allCards.forEach(card => cardMap[card.getAttribute('data-os')] = card);
-                downloadGrid.innerHTML = ''; 
-
-                finalOrder.forEach(osKey => {
-                    const card = cardMap[osKey];
-                    if (card) {
-                        card.classList.remove('recommended');
-                        downloadGrid.appendChild(card);
-                    }
-                });
-
-                // 5. 应用高亮和推荐样式
-                const detectedCard = cardMap[osToPrepend];
-                if (detectedCard) {
-                    detectedCard.classList.add('recommended');
-                }
-
-                // 识别最合适的版本并对其下载按钮进行更强的视觉突出
-                const recommendedItem = document.querySelector(`[data-os-variant="${recommendedVariant}"]`);
-                if (recommendedItem) {
-                    const downloadBtn = recommendedItem.querySelector('.download-btn');
-                    if(downloadBtn) {
-                        downloadBtn.style.backgroundColor = '#00f6ff'; 
-                        downloadBtn.style.boxShadow = '0 0 18px rgba(0, 246, 255, 1), 0 0 10px rgba(0, 246, 255, 0.5)';
-                        downloadBtn.style.transform = 'scale(1.05)';
-                    }
-                }
+            if (variant && downloadLinks[variant]) {
+                btn.href = downloadLinks[variant];
             }
+        });
+    }
+
+    function updateVisibility(version, downloadLinks) {
+        document.querySelectorAll('.variant-item').forEach(item => {
+            const variant = item.getAttribute('data-os-variant');
+            const hasSupportedFile = !variant || Boolean(downloadLinks[variant]);
+            setVisible(item, isVersionAvailable(item, version) && hasSupportedFile);
+        });
+
+        document.querySelectorAll('.platform-card').forEach(card => {
+            const hasVisibleVariant = Boolean(card.querySelector('.variant-item:not([hidden])'));
+            const hasVersionedDownloads = Boolean(card.querySelector('.variant-item[data-os-variant]'));
+            const visible = isVersionAvailable(card, version) && (!hasVersionedDownloads || hasVisibleVariant);
+            setVisible(card, visible);
+        });
+    }
+
+    function renderVersion(version) {
+        const downloadLinks = getDownloadLinks(version);
+        updateVersionDescriptions(version);
+        updateDownloadButtons(version, downloadLinks);
+        updateVisibility(version, downloadLinks);
+    }
+
+    function reorderCards() {
+        if (!detectedOS) return;
+
+        const cards = Array.from(grid.querySelectorAll('.platform-card'));
+        const cardMap = {};
+        cards.forEach(card => cardMap[card.getAttribute('data-os')] = card);
+
+        const isMobile = mobileOS.includes(detectedOS);
+        const order = [detectedOS, ...(isMobile ? mobileOS : desktopOS), ...(isMobile ? desktopOS : mobileOS)];
+        const finalOrder = [...new Set(order)];
+
+        grid.innerHTML = '';
+        finalOrder.forEach(os => {
+            if (cardMap[os]) {
+                cardMap[os].classList.toggle('recommended', os === detectedOS);
+                grid.appendChild(cardMap[os]);
+            }
+        });
+    }
+
+    async function collectDeviceInfo() {
+        let info = { arch: 'unknown', platformName: 'Other', isAndroid: /Android/i.test(ua), isWindows: /Win/i.test(ua), isMacOS: /Macintosh/i.test(ua), isIOS: /iPhone|iPad/i.test(ua), isLinux: /Linux/i.test(ua) };
+        if (navigator.userAgentData && navigator.userAgentData.getHighEntropyValues) {
+            try {
+                const hints = await navigator.userAgentData.getHighEntropyValues(['architecture', 'platform', 'bitness']);
+                info.arch = hints.architecture || '';
+                info.platformName = hints.platform || '';
+            } catch (e) {}
         }
+        if (info.arch === 'unknown' || !info.arch) {
+            if (/x86_64|x86/i.test(ua)) info.arch = 'x86';
+            else if (/arm64|aarch64/i.test(ua)) info.arch = 'arm64';
+        }
+        return info;
+    }
 
-        // --- 4. 运行初始化和兼容性脚本 ---
-        populateVersionsAndLinks();
-        detectAndRender(); // 运行异步检测和渲染
-        
-        // 微信/QQ 浏览器检测和跳转逻辑 (保持不变)
-        (function(){
-            var ua=navigator.userAgent.toLowerCase();
-            var isWeChat=ua.includes('micromessenger');
-            var isQQBrowser=ua.includes('qq/')||ua.includes('qqbrowser');
-            if(isWeChat||isQQBrowser){
-                document.title='请使用内置浏览器打开';
-                document.body.innerHTML=`<div style="text-align: center; color: white; padding-top: 50px;">
-                    <p style="font-size: 1.5rem;">请使用系统内置浏览器打开此页面以下载文件</p>
-                    <img src="https://www.vcnets.top/wx1.jpg" alt="操作引导" style="width: 100%; max-width: 500px; margin-top: 20px;">
-                </div>`;
-            } else {
-                if(window.location.hostname==='www.vcnet.sbs'){
-                    const currentPath=window.location.pathname+window.location.search+window.location.hash;
-                    window.location.href='https://www.vcnets.top'+currentPath
-                }
-            }
-        })();
-    });
+    async function initPage() {
+        const info = await collectDeviceInfo();
+        detectedOS = info.isIOS ? 'ios' : (info.isAndroid ? 'android' : (info.isWindows ? 'windows' : (info.isMacOS ? 'macos' : (info.isLinux ? 'linux' : null))));
+
+        if (osDisplay) osDisplay.textContent = ` (您的系统架构: ${info.platformName} ${info.arch.toUpperCase()})`;
+
+        reorderCards();
+        renderVersion(versionSelector.value);
+    }
+
+    versionSelector.addEventListener('change', (e) => renderVersion(e.target.value));
+    initPage();
+
+    (function(){
+        var lUA = ua.toLowerCase();
+        if(lUA.includes('micromessenger') || lUA.includes('qq/')){
+            document.body.innerHTML = `<div style="text-align: center; color: white; padding-top: 50px; font-family: sans-serif;">
+                <p style="font-size: 1.5rem;">请点击右上角，使用系统浏览器打开</p>
+            </div>`;
+        }
+    })();
+});
 </script>
 </body>
 </html>
