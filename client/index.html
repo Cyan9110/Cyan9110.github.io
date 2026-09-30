@@ -8,7 +8,7 @@
     <title>维C加速 - 客户端下载</title>
     <link rel="shortcut icon" type="image/x-icon" href="./img/icon_512x512@2x.png">
     <link rel="icon" href="./img/favicon.ico">
-    <link href="https://fonts.loli.net/css2?family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.loli2.net/css2?family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script charset="UTF-8" id="LA_COLLECT" src="//sdk.51.la/js-sdk-pro.min.js"></script>
     <script>LA.init({id:"3LdNey2DYD7TBmHS",ck:"3LdNey2DYD7TBmHS"})</script>
@@ -53,48 +53,7 @@
         .logo { width: 80px; height: 80px; margin-bottom: 15px; border-radius: 20%; box-shadow: var(--shadow-subtle); }
         .title { font-size: 2.5rem; font-weight: 700; color: var(--accent-blue); text-shadow: 0 0 10px rgba(0, 224, 255, 0.3); margin: 0; }
         .subtitle { font-size: 1.1rem; color: #aaa; margin-top: 15px; }
-
-        .version-control {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-            margin: 25px 0;
-        }
-
-        #version-selector {
-            background-color: #1a1a1a;
-            color: var(--accent-blue);
-            border: 2px solid #333;
-            padding: 8px 16px;
-            border-radius: 10px;
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 0.95rem;
-            font-weight: 700;
-            cursor: pointer;
-            outline: none;
-            transition: all 0.3s ease;
-            appearance: none;
-            -webkit-appearance: none;
-            min-width: 160px;
-            text-align: center;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%2300e0ff' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
-            background-repeat: no-repeat;
-            background-position: calc(100% - 12px) center;
-            padding-right: 35px;
-        }
-
-        #version-selector:hover {
-            border-color: var(--accent-blue);
-            box-shadow: 0 0 10px rgba(0, 224, 255, 0.2);
-        }
-
-        #version-selector:focus {
-            border-color: var(--accent-blue);
-            box-shadow: var(--accent-glow);
-        }
-
-        .download-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; margin-bottom: 40px; }
+.download-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; margin-bottom: 40px; }
         .platform-card { background-color: var(--card-bg); border: 1px solid var(--grid-color); border-radius: var(--border-radius-lg); padding: 25px; transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); box-shadow: var(--shadow-subtle); position: relative; overflow: hidden; }
         .platform-card:hover { border-color: #0088aa; box-shadow: 0 0 10px rgba(0, 224, 255, 0.4); transform: translateY(-3px); }
         .platform-card.recommended { border-color: var(--accent-blue); box-shadow: var(--accent-glow), 0 0 5px var(--accent-blue); transform: scale(1.03); z-index: 10; }
@@ -125,8 +84,7 @@
         @media (max-width: 900px) { 
             .footer-section { flex-direction: column; } 
             .title { font-size: 2rem; }
-            .version-control { flex-direction: column; gap: 8px; }
-        }
+}
     </style>
 </head>
 <body>
@@ -134,19 +92,8 @@
         <header class="header">
             <img src="./img/icon_512x512@2x.png" alt="维C加速 Logo" class="logo">
             <h1 class="title">维C加速客户端下载</h1>
-            
-            <div class="version-control">
-                <label for="version-selector" style="color: #888; font-size: 0.9rem;">切换历史版本:</label>
-                <select id="version-selector">
-                    <option value="1.1.3" selected>v1.1.3</option>
-                    <option value="1.0.9">v1.0.9</option>
-                    <option value="1.0.7">v1.0.7</option>
-                    <option value="1.0.6">v1.0.6</option>
-                </select>
-            </div>
-
-            <p class="subtitle">系统自动分析中，请下载适配您系统架构的客户端。<span id="os-display" style="margin-left: 10px; font-weight: bold; color: var(--accent-blue);"></span></p>
-            <p>如账户拥有有效流量/时长，而客户端显示无节点，请卸载客户端后，更换版本安装</p>
+<p class="subtitle">当前最新版本：<strong id="latest-version" style="color: var(--accent-blue);"></strong>。系统自动分析中，请下载适配您系统架构的客户端。<span id="os-display" style="margin-left: 10px; font-weight: bold; color: var(--accent-blue);"></span></p>
+           
         </header>
 
         <main class="download-grid" id="download-matrix">
@@ -157,17 +104,9 @@
                     <div><h2 class="platform-name">Windows 电脑 <span>Windows / PC</span></h2></div>
                 </div>
                 <ul class="variant-list">
-                    <li class="variant-item" data-os-variant="windows-setup">
-                        <div class="version-info">Windows x64 安装版 (推荐) <small data-version-target="true">Windows 10+ / Intel / AMD</small></div>
-                        <a href="#" class="download-btn" rel="nofollow" target="_blank">下载 EXE</a>
-                    </li>
-                    <li class="variant-item" data-os-variant="windows-arm64" data-min-version="1.1.3">
-                        <div class="version-info">Windows ARM64 安装版 <small data-version-target="true">Surface / ARM64 设备</small></div>
-                        <a href="#" class="download-btn" rel="nofollow" target="_blank">下载 EXE</a>
-                    </li>
-                    <li class="variant-item" data-os-variant="windows-zip" data-max-version="1.0.9" hidden>
-                        <div class="version-info">免安装版本 (ZIP) <small data-version-target="true">便捷运行</small></div>
-                        <a href="#" class="download-btn" rel="nofollow" target="_blank">下载 ZIP</a>
+                    <li class="variant-item" data-os-variant="windows-x86_64">
+                        <div class="version-info">Windows x86_64 安装版 <small>Windows 10+ / Intel / AMD / <span class="app-version"></span></small></div>
+                        <a href="#" data-download-file="VcNet-{version}-windows-x86_64.exe" class="download-btn" rel="nofollow" target="_blank">下载 EXE</a>
                     </li>
                 </ul>
             </div>
@@ -180,12 +119,12 @@
                 </div>
                 <ul class="variant-list">
                     <li class="variant-item" data-os-variant="macos-arm64">
-                        <div class="version-info">M 系列处理器 <small data-version-target="true">M1 / M2 / M3 / M4 (ARM64)</small></div>
-                        <a href="#" class="download-btn" rel="nofollow" target="_blank" data-dynamic-label="macos">下载 PKG</a>
+                        <div class="version-info">M 系列处理器 <small>macOS 11+ / M1 / M2 / M3 / M4 / ARM64 / <span class="app-version"></span></small></div>
+                        <a href="#" data-download-file="VcNet-{version}-macos-arm64.dmg" class="download-btn" rel="nofollow" target="_blank">下载 DMG</a>
                     </li>
                     <li class="variant-item" data-os-variant="macos-amd64">
-                        <div class="version-info">Intel 系列处理器 <small data-version-target="true">老款 Mac (AMD64)</small></div>
-                        <a href="#" class="download-btn" rel="nofollow" target="_blank" data-dynamic-label="macos">下载 PKG</a>
+                        <div class="version-info">Intel 系列处理器 <small>macOS 10.5+ / Intel Mac / AMD64 / <span class="app-version"></span></small></div>
+                        <a href="#" data-download-file="VcNet-{version}-macos-amd64.dmg" class="download-btn" rel="nofollow" target="_blank">下载 DMG</a>
                     </li>
                 </ul>
             </div>
@@ -198,33 +137,21 @@
                 </div>
                 <ul class="variant-list">
                     <li class="variant-item" data-os-variant="android-arm64">
-                        <div class="version-info">新机型 / 电视 (ARM64) <small data-version-target="true">主流安卓设备</small></div>
-                        <a href="#" class="download-btn" rel="nofollow" target="_blank">下载 APK</a>
+                        <div class="version-info">ARM64 版本 <small>绝大多数新款安卓设备 / <span class="app-version"></span></small></div>
+                        <a href="#" data-download-file="VcNet-{version}-android-arm64-v8a.apk" class="download-btn" rel="nofollow" target="_blank">下载 APK</a>
                     </li>
                     <li class="variant-item" data-os-variant="android-arm32">
-                        <div class="version-info">老机型 / 兼容版 (ARM32) <small data-version-target="true">旧款手机</small></div>
-                        <a href="#" class="download-btn" rel="nofollow" target="_blank">下载 APK</a>
+                        <div class="version-info">ARM32 兼容版 <small>旧款 ARM 安卓设备 / <span class="app-version"></span></small></div>
+                        <a href="#" data-download-file="VcNet-{version}-android-armeabi-v7a.apk" class="download-btn" rel="nofollow" target="_blank">下载 APK</a>
+                    </li>
+                    <li class="variant-item" data-os-variant="android-x86_64">
+                        <div class="version-info">x86_64 版本 <small>部分模拟器 / x86_64 安卓设备 / <span class="app-version"></span></small></div>
+                        <a href="#" data-download-file="VcNet-{version}-android-x86_64.apk" class="download-btn" rel="nofollow" target="_blank">下载 APK</a>
                     </li>
                 </ul>
             </div>
 
-            <!-- Android TV -->
-            <div class="platform-card" data-os="android-tv" data-min-version="1.1.3">
-                <div class="card-header">
-                    <i class="fas fa-tv platform-icon"></i>
-                    <div><h2 class="platform-name">Android TV <span>电视 / 盒子</span></h2></div>
-                </div>
-                <ul class="variant-list">
-                    <li class="variant-item" data-os-variant="android-tv-arm64">
-                        <div class="version-info">新款电视 / 盒子 (ARM64) <small data-version-target="true">主流 Android TV 设备</small></div>
-                        <a href="#" class="download-btn" rel="nofollow" target="_blank">下载 APK</a>
-                    </li>
-                    <li class="variant-item" data-os-variant="android-tv-arm32">
-                        <div class="version-info">旧款电视 / 盒子 (ARM32) <small data-version-target="true">兼容老设备</small></div>
-                        <a href="#" class="download-btn" rel="nofollow" target="_blank">下载 APK</a>
-                    </li>
-                </ul>
-            </div>
+            
 
             <!-- iOS -->
             <div class="platform-card" data-os="ios">
@@ -234,37 +161,26 @@
                 </div>
                 <ul class="variant-list">
                     <li class="variant-item">
-                        <div class="version-info">AppStore 官方渠道 <small>Shadowrocket(小火箭)</small></div>
-                        <a href="https://shop.vcnets.top" class="download-btn" rel="nofollow" target="_blank">点击获取</a>
+                        <div class="version-info">Clash Lite<small>美区 AppleStore 下载</small></div>
+                        <a href="https://doc.vcnets.top/doc/3/" class="download-btn" rel="nofollow" target="_blank">点击获取</a>
+                    </li>
+                </ul>
+                <ul class="variant-list">
+                    <li class="variant-item">
+                        <div class="version-info">Nextin(星拓)<small>美区 AppleStore 下载</small></div>
+                        <a href="https://doc.vcnets.top/doc/8/" class="download-btn" rel="nofollow" target="_blank">点击获取</a>
                     </li>
                 </ul>
             </div>
 
-            <!-- Linux -->
-            <div class="platform-card" data-os="linux" data-max-version="1.0.9" hidden>
-                <div class="card-header">
-                    <i class="fab fa-linux platform-icon"></i>
-                    <div><h2 class="platform-name">Linux 电脑 <span>Ubuntu / Fedora / Debian</span></h2></div>
-                </div>
-                <ul class="variant-list">
-                    <li class="variant-item" data-os-variant="linux-deb">
-                        <div class="version-info">Debian / Ubuntu <small data-version-target="true">通用安装包</small></div>
-                        <a href="#" class="download-btn" rel="nofollow" target="_blank">下载 DEB</a>
-                    </li>
-                    <li class="variant-item" data-os-variant="linux-rpm">
-                        <div class="version-info">Fedora / CentOS <small data-version-target="true">通用安装包</small></div>
-                        <a href="#" class="download-btn" rel="nofollow" target="_blank">下载 RPM</a>
-                    </li>
-                </ul>
-            </div>
 
         </main>
 
         <section class="footer-section">
             <div class="support-info">
                 <h3>🛠 客户端部署指南</h3>
-                <p>⚠️ Windows 提示： 若运行报错，请 <a href="https://down.vcnetapp.top/Microsoft_Visual_C++_4.7.25.0306.exe" target="_blank">下载 VC++ 运行库</a>。</p>
-                <p>🍎 macOS 提示： 遇到「无法开启App」请 <a href="https://support.apple.com/zh-cn/guide/mac-help/mh40616/mac" target="_blank">参考官方授权文档</a>。</p>
+                <p>⚠️ Windows 提示「Windows 已保护你的电脑」请参考这篇文章：<a href="https://zhuanlan.zhihu.com/p/1937494425124209215">[文章1]</a></p>
+                <p>⚠️ MacOS 无法验证开发者请参考这两篇文章：<a href="https://zhuanlan.zhihu.com/p/350705231">[文章1]</a> <a href="https://support.apple.com/zh-cn/guide/mac-help/mh40616/mac)">[文章2]</a><p>
             </div>
             <div class="cta-group">
                 <a class="cta-btn primary" href="https://shop.vcnets.top" target="_blank">购买加速节点</a>
@@ -275,116 +191,27 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    const BASE_URL = 'https://down.vcnetapp.top/VcNet-';
-    const versionSelector = document.getElementById('version-selector');
+    // --- 全局客户端版本控制：后续发版只需要修改这里 ---
+    const APP_VERSION = '2.0.7';
+    const DOWNLOAD_BASE = 'https://down.vcnetapp.top';
+
+    const latestVersion = document.getElementById('latest-version');
+    if (latestVersion) latestVersion.textContent = `v${APP_VERSION}`;
+
+    document.querySelectorAll('.app-version').forEach(el => {
+        el.textContent = `v${APP_VERSION}`;
+    });
+
+    document.querySelectorAll('[data-download-file]').forEach(link => {
+        const fileName = link.dataset.downloadFile.replace('{version}', APP_VERSION);
+        link.href = `${DOWNLOAD_BASE}/${fileName}`;
+    });
     const osDisplay = document.getElementById('os-display');
     const grid = document.getElementById('download-matrix');
-    const desktopOS = ['windows', 'macos', 'linux'];
-    const mobileOS = ['android', 'android-tv', 'ios'];
+    const desktopOS = ['windows', 'macos'];
+    const mobileOS = ['android', 'ios'];
     const ua = navigator.userAgent;
     let detectedOS = null;
-
-    function compareVersions(a, b) {
-        const left = a.split('.').map(Number);
-        const right = b.split('.').map(Number);
-        const length = Math.max(left.length, right.length);
-
-        for (let i = 0; i < length; i++) {
-            const diff = (left[i] || 0) - (right[i] || 0);
-            if (diff !== 0) return diff;
-        }
-        return 0;
-    }
-
-    function isVersionAvailable(element, version) {
-        const minVersion = element.getAttribute('data-min-version');
-        const maxVersion = element.getAttribute('data-max-version');
-
-        if (minVersion && compareVersions(version, minVersion) < 0) return false;
-        if (maxVersion && compareVersions(version, maxVersion) > 0) return false;
-        return true;
-    }
-
-    function setVisible(element, visible) {
-        element.hidden = !visible;
-        element.style.display = visible ? '' : 'none';
-    }
-
-    function getDownloadLinks(version) {
-        if (version === '1.1.3') {
-            return {
-                'windows-setup': `${BASE_URL}${version}-windows-x64-setup.exe`,
-                'windows-arm64': `${BASE_URL}${version}-windows-arm64-setup.exe`,
-                'macos-arm64': `${BASE_URL}${version}-macos-arm64.pkg`,
-                'macos-amd64': `${BASE_URL}${version}-macos-amd64.pkg`,
-                'android-arm64': `${BASE_URL}${version}-android-arm64-v8a.apk`,
-                'android-arm32': `${BASE_URL}${version}-android-armeabi-v7a.apk`,
-                'android-tv-arm64': `${BASE_URL}${version}-android-tv-arm64-v8a.apk`,
-                'android-tv-arm32': `${BASE_URL}${version}-android-tv-armeabi-v7a.apk`,
-            };
-        }
-
-        return {
-            'windows-setup': `${BASE_URL}${version}-windows-amd64-setup.exe`,
-            'windows-zip': `${BASE_URL}${version}-windows-amd64.zip`,
-            'macos-arm64': `${BASE_URL}${version}-macos-arm64.dmg`,
-            'macos-amd64': `${BASE_URL}${version}-macos-amd64.dmg`,
-            'android-arm64': `${BASE_URL}${version}-android-arm64-v8a.apk`,
-            'android-arm32': `${BASE_URL}${version}-android-armeabi-v7a.apk`,
-            'android-x86': `${BASE_URL}${version}-android-x86_64.apk`,
-            'linux-deb': `${BASE_URL}${version}-linux-amd64.deb`,
-            'linux-rpm': `${BASE_URL}${version}-linux-amd64.rpm`,
-        };
-    }
-
-    function updateVersionDescriptions(version) {
-        document.querySelectorAll('.variant-item').forEach(item => {
-            const smallTag = item.querySelector('.version-info small[data-version-target="true"]');
-            if (!smallTag) return;
-
-            if (!item.hasAttribute('data-original-desc')) {
-                item.setAttribute('data-original-desc', smallTag.textContent.split(' v')[0]);
-            }
-            smallTag.textContent = `${item.getAttribute('data-original-desc')} v${version}`;
-        });
-    }
-
-    function updateDownloadButtons(version, downloadLinks) {
-        document.querySelectorAll('.variant-item').forEach(item => {
-            const variant = item.getAttribute('data-os-variant');
-            const btn = item.querySelector('.download-btn');
-            if (!btn) return;
-
-            if (btn.dataset.dynamicLabel === 'macos') {
-                btn.textContent = version === '1.1.3' ? '下载 PKG' : '下载 DMG';
-            }
-            if (variant && downloadLinks[variant]) {
-                btn.href = downloadLinks[variant];
-            }
-        });
-    }
-
-    function updateVisibility(version, downloadLinks) {
-        document.querySelectorAll('.variant-item').forEach(item => {
-            const variant = item.getAttribute('data-os-variant');
-            const hasSupportedFile = !variant || Boolean(downloadLinks[variant]);
-            setVisible(item, isVersionAvailable(item, version) && hasSupportedFile);
-        });
-
-        document.querySelectorAll('.platform-card').forEach(card => {
-            const hasVisibleVariant = Boolean(card.querySelector('.variant-item:not([hidden])'));
-            const hasVersionedDownloads = Boolean(card.querySelector('.variant-item[data-os-variant]'));
-            const visible = isVersionAvailable(card, version) && (!hasVersionedDownloads || hasVisibleVariant);
-            setVisible(card, visible);
-        });
-    }
-
-    function renderVersion(version) {
-        const downloadLinks = getDownloadLinks(version);
-        updateVersionDescriptions(version);
-        updateDownloadButtons(version, downloadLinks);
-        updateVisibility(version, downloadLinks);
-    }
 
     function reorderCards() {
         if (!detectedOS) return;
@@ -394,7 +221,11 @@ document.addEventListener('DOMContentLoaded', function() {
         cards.forEach(card => cardMap[card.getAttribute('data-os')] = card);
 
         const isMobile = mobileOS.includes(detectedOS);
-        const order = [detectedOS, ...(isMobile ? mobileOS : desktopOS), ...(isMobile ? desktopOS : mobileOS)];
+        const order = [
+            detectedOS,
+            ...(isMobile ? mobileOS : desktopOS),
+            ...(isMobile ? desktopOS : mobileOS)
+        ];
         const finalOrder = [...new Set(order)];
 
         grid.innerHTML = '';
@@ -407,40 +238,65 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     async function collectDeviceInfo() {
-        let info = { arch: 'unknown', platformName: 'Other', isAndroid: /Android/i.test(ua), isWindows: /Win/i.test(ua), isMacOS: /Macintosh/i.test(ua), isIOS: /iPhone|iPad/i.test(ua), isLinux: /Linux/i.test(ua) };
+        let info = {
+            arch: 'unknown',
+            platformName: 'Other',
+            isAndroid: /Android/i.test(ua),
+            isWindows: /Win/i.test(ua),
+            isMacOS: /Macintosh/i.test(ua),
+            isIOS: /iPhone|iPad/i.test(ua)
+        };
+
         if (navigator.userAgentData && navigator.userAgentData.getHighEntropyValues) {
             try {
-                const hints = await navigator.userAgentData.getHighEntropyValues(['architecture', 'platform', 'bitness']);
+                const hints = await navigator.userAgentData.getHighEntropyValues([
+                    'architecture',
+                    'platform',
+                    'bitness'
+                ]);
                 info.arch = hints.architecture || '';
                 info.platformName = hints.platform || '';
             } catch (e) {}
         }
+
         if (info.arch === 'unknown' || !info.arch) {
-            if (/x86_64|x86/i.test(ua)) info.arch = 'x86';
+            if (/x86_64|x64|amd64|x86/i.test(ua)) info.arch = 'x86_64';
             else if (/arm64|aarch64/i.test(ua)) info.arch = 'arm64';
+            else if (/armv7|armeabi/i.test(ua)) info.arch = 'arm32';
         }
+
         return info;
     }
 
     async function initPage() {
         const info = await collectDeviceInfo();
-        detectedOS = info.isIOS ? 'ios' : (info.isAndroid ? 'android' : (info.isWindows ? 'windows' : (info.isMacOS ? 'macos' : (info.isLinux ? 'linux' : null))));
 
-        if (osDisplay) osDisplay.textContent = ` (您的系统架构: ${info.platformName} ${info.arch.toUpperCase()})`;
+        detectedOS = info.isIOS
+            ? 'ios'
+            : (info.isAndroid
+                ? 'android'
+                : (info.isWindows
+                    ? 'windows'
+                    : (info.isMacOS ? 'macos' : null)));
+
+        if (osDisplay) {
+            osDisplay.textContent =
+                ` (您的系统架构: ${info.platformName} ${String(info.arch).toUpperCase()})`;
+        }
 
         reorderCards();
-        renderVersion(versionSelector.value);
     }
 
-    versionSelector.addEventListener('change', (e) => renderVersion(e.target.value));
     initPage();
 
-    (function(){
-        var lUA = ua.toLowerCase();
-        if(lUA.includes('micromessenger') || lUA.includes('qq/')){
-            document.body.innerHTML = `<div style="text-align: center; color: white; padding-top: 50px; font-family: sans-serif;">
-                <p style="font-size: 1.5rem;">请点击右上角，使用系统浏览器打开</p>
-            </div>`;
+    (function() {
+        const lUA = ua.toLowerCase();
+        if (lUA.includes('micromessenger') || lUA.includes('qq/')) {
+            document.body.innerHTML = `
+                <div style="text-align:center;color:white;padding-top:50px;font-family:sans-serif;">
+                    <p style="font-size:1.5rem;">请点击右上角，使用系统浏览器打开</p>
+                </div>
+            `;
         }
     })();
 });
