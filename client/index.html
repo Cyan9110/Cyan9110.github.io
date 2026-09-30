@@ -1,305 +1,463 @@
 <!DOCTYPE html>
-<html lang="zh-cn">
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="renderer" content="webkit">
-    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
-    <title>维C加速 - 客户端下载</title>
-    <link rel="shortcut icon" type="image/x-icon" href="./img/icon_512x512@2x.png">
-    <link rel="icon" href="./img/favicon.ico">
-    <link href="https://fonts.loli2.net/css2?family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>维C加速 - 地址发布页 - 导航站</title>
+    <meta name="keywords" content="维C加速, iOS, App Store, 导航, 防失联">
+    <meta name="description" content="维C加速官方地址发布页，提供最稳定、最快的服务入口。">
+    <link rel="icon" href="/client/img/favicon.ico">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script charset="UTF-8" id="LA_COLLECT" src="//sdk.51.la/js-sdk-pro.min.js"></script>
     <script>LA.init({id:"3LdNey2DYD7TBmHS",ck:"3LdNey2DYD7TBmHS"})</script>
     <style>
-        /* --- 颜色变量 --- */
+        /* CSS 变量定义 */
         :root {
-            --bg-dark: #121212;
-            --grid-color: #1c1c1c;
-            --text-light: #f0f0f0;
-            --accent-blue: #00e0ff; 
-            --accent-glow: 0 0 15px rgba(0, 224, 255, 0.6);
-            --card-bg: #1e1e1e;
-            --border-radius-lg: 12px;
-            --shadow-subtle: 0 5px 15px rgba(0, 0, 0, 0.5);
+            --ios-bg-color: #f2f2f7;
+            --ios-card-bg: #ffffff;
+            --ios-separator-color: #c6c6c8;
+            --ios-blue: #007aff;
+            --ios-green: #34c759;
+            --ios-text-color: #000000;
+            --ios-secondary-text: #8e8e93;
+            --ios-radius: 12px;
+            --ios-list-radius: 10px;
         }
 
-        * { box-sizing: border-box; }
-        [hidden] { display: none !important; }
-        body {
-            font-family: 'Space Grotesk', sans-serif;
-            color: var(--text-light);
-            background-color: var(--bg-dark);
-            min-height: 100vh;
+        /* 基础重置 */
+        body, html {
             margin: 0;
-            padding: 50px 20px;
+            padding: 0;
+            height: 100%;
+            width: 100%;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: var(--ios-bg-color);
+            overflow: hidden; /* 防止双滚动条，由分栏容器处理 */
+        }
+
+        /* --- 核心修改：彻底去除所有链接下划线 --- */
+        a {
+            text-decoration: none !important;
+            color: inherit;
+            outline: none;
+        }
+        a:hover, a:active, a:visited {
+            text-decoration: none !important;
+        }
+
+        /* 左右分栏容器布局 */
+        .split-wrapper {
+            display: flex;
+            height: 100vh;
+            width: 100%;
+        }
+
+        /* 左侧背景图区域 */
+        .split-left {
+            flex: 1; /* 占据空间比例 */
+            background-image: url('https://cn.bing.com/th?id=OHR.CostadaMorte_ZH-CN5219249535_1920x1080.jpg&rf=LaDigue_1920x1080.jpg&pid=hp');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            border-right: 1px solid rgba(0,0,0,0.05);
+        }
+
+        /* 右侧网页内容区域 */
+        .split-right {
+            flex: 1; /* 占据空间比例 */
+            background-color: var(--ios-bg-color);
+            overflow-y: auto; /* 内容超出时右侧独立滚动 */
             display: flex;
             justify-content: center;
             align-items: flex-start;
-            background-image: linear-gradient(to right, var(--grid-color) 1px, transparent 1px),
-                              linear-gradient(to bottom, var(--grid-color) 1px, transparent 1px);
-            background-size: 50px 50px;
         }
 
-        .container { width: 100%; max-width: 1100px; }
-        
-        .header {
+        /* 内容承载容器 */
+        .container {
+            width: 100%;
+            max-width: 500px;
+            padding: 40px 16px;
+        }
+
+        /* App Store 风格头部 */
+        .app-header-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 24px 0;
+            margin-bottom: 25px;
+        }
+        .app-icon {
+            width: 80px;
+            height: 80px;
+            background-color: var(--ios-blue);
+            border-radius: 18px;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        .app-title {
+            font-size: 28px;
+            font-weight: 700;
+            margin-top: 15px;
+            color: var(--ios-text-color);
+        }
+
+        /* 动作按钮风格 */
+        .primary-action {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+        }
+        .button-group {
+            display: flex;
+            gap: 12px;
+        }
+        .app-store-button {
+            display: block;
+            width: 130px;
+            height: 38px;
+            line-height: 38px;
             text-align: center;
-            margin-bottom: 50px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid var(--grid-color);
+            background-color: var(--ios-blue);
+            color: white !important; /* 强制按钮文字白色且无下划线 */
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 19px;
+            transition: background-color 0.15s ease;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
         }
-        .logo { width: 80px; height: 80px; margin-bottom: 15px; border-radius: 20%; box-shadow: var(--shadow-subtle); }
-        .title { font-size: 2.5rem; font-weight: 700; color: var(--accent-blue); text-shadow: 0 0 10px rgba(0, 224, 255, 0.3); margin: 0; }
-        .subtitle { font-size: 1.1rem; color: #aaa; margin-top: 15px; }
-.download-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; margin-bottom: 40px; }
-        .platform-card { background-color: var(--card-bg); border: 1px solid var(--grid-color); border-radius: var(--border-radius-lg); padding: 25px; transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); box-shadow: var(--shadow-subtle); position: relative; overflow: hidden; }
-        .platform-card:hover { border-color: #0088aa; box-shadow: 0 0 10px rgba(0, 224, 255, 0.4); transform: translateY(-3px); }
-        .platform-card.recommended { border-color: var(--accent-blue); box-shadow: var(--accent-glow), 0 0 5px var(--accent-blue); transform: scale(1.03); z-index: 10; }
-        .platform-card.recommended .card-header::after { content: '当前设备'; position: absolute; top: 15px; right: -30px; background-color: var(--accent-blue); color: var(--bg-dark); padding: 2px 35px; font-size: 0.75rem; font-weight: 700; transform: rotate(45deg); box-shadow: 0 0 5px var(--accent-blue); }
+        .app-store-button:active {
+            background-color: #0066cc;
+        }
 
-        .card-header { display: flex; align-items: center; margin-bottom: 20px; }
-        .platform-icon { font-size: 3rem; color: var(--accent-blue); margin-right: 15px; }
-        .platform-name { font-size: 1.5rem; font-weight: 700; margin: 0; }
-        .platform-name span { display: block; font-size: 0.85rem; font-weight: 500; color: #999; }
-        .variant-list { list-style: none; padding: 0; margin: 0; }
-        .variant-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-top: 1px dashed var(--grid-color); }
-        .variant-item:first-child { border-top: none; }
-        .version-info { flex-grow: 1; text-align: left; margin-right: 10px; }
-        .version-info small { display: block; color: #888; font-size: 0.8rem; }
+        /* iOS 设置列表风格 */
+        .ios-group-list {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 25px 0;
+            background-color: var(--ios-card-bg);
+            border-radius: var(--ios-list-radius);
+            overflow: hidden;
+            box-shadow: 0 0.5px 0 rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.05);
+        }
+        .list-header {
+            padding: 10px 20px 5px 20px;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--ios-secondary-text);
+            text-transform: uppercase;
+        }
+        .ios-group-list li {
+            position: relative;
+        }
+        /* 列表项中间的分隔线，非文字下划线 */
+        .ios-group-list li:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 20px;
+            right: 0;
+            height: 0.5px;
+            background-color: var(--ios-separator-color);
+            transform: scaleY(0.5);
+        }
+        .ios-group-list a.list-item-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 20px;
+            color: var(--ios-text-color);
+            transition: background-color 0.1s;
+        }
+        .ios-group-list a.list-item-content:active {
+            background-color: #e5e5ea;
+        }
 
-        .download-btn { background-color: var(--accent-blue); color: var(--bg-dark); padding: 8px 20px; border-radius: 20px; text-decoration: none; font-weight: 700; transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); white-space: nowrap; }
-        .download-btn:hover { background-color: #00ceff; box-shadow: 0 0 15px rgba(0, 224, 255, 0.9); transform: translateY(-2px); }
+        /* 列表项内图标样式 */
+        .icon-wrapper {
+            width: 26px;
+            height: 26px;
+            margin-right: 15px;
+            border-radius: 6px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 14px;
+        }
+        .icon-download { background-color: var(--ios-green); }
+        .icon-globe { background-color: var(--ios-blue); }
+        .icon-telegram { background-color: #2aabee; }
+        .item-label { flex-grow: 1; font-size: 17px; }
+        .chevron { color: var(--ios-separator-color); font-size: 14px; }
 
-        .footer-section { display: flex; gap: 25px; }
-        .support-info { flex: 2; padding: 20px; background-color: #1a1a1a; border-radius: var(--border-radius-lg); border: 1px solid #333; font-size: 0.9rem; }
-        .support-info p { margin: 10px 0; color: #aaa; }
-        .support-info a { color: var(--accent-blue); text-decoration: none; }
-        .cta-group { flex: 1; display: flex; flex-direction: column; gap: 15px; }
-        .cta-btn { text-align: center; padding: 15px 20px; border-radius: var(--border-radius-lg); font-size: 1.1rem; font-weight: 700; transition: all 0.3s; text-decoration: none; }
-        .cta-btn.primary { background-color: #5856d6; color: white; box-shadow: 5px 5px 15px rgba(88, 86, 214, 0.4); }
-        .cta-btn.secondary { border: 2px solid var(--accent-blue); color: var(--accent-blue); }
+        /* 警示文字跑马灯动画 */
+        .xxxpan-text {
+            font-weight: 800;
+            margin: 10px 0;
+            text-align: center;
+            animation: rainbow 4s infinite linear;
+        }
+        @keyframes rainbow {
+            0%   { color: hsl(0, 70%, 50%); }
+            25%  { color: hsl(90, 70%, 50%); }
+            50%  { color: hsl(180, 70%, 50%); }
+            75%  { color: hsl(270, 70%, 50%); }
+            100% { color: hsl(360, 70%, 50%); }
+        }
 
-        @media (max-width: 900px) { 
-            .footer-section { flex-direction: column; } 
-            .title { font-size: 2rem; }
-}
+        /* 底部版权信息 */
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 13px;
+            color: var(--ios-secondary-text);
+        }
+
+        /* 移动端响应式适配 */
+        @media (max-width: 768px) {
+            .split-left { display: none; } /* 手机端隐藏背景图 */
+            .split-right { height: auto; overflow-y: visible; }
+            body, html { overflow: auto; }
+        }
     </style>
 </head>
 <body>
-    <div class="container">
-        <header class="header">
-            <img src="./img/icon_512x512@2x.png" alt="维C加速 Logo" class="logo">
-            <h1 class="title">维C加速客户端下载</h1>
-<p class="subtitle">当前最新版本：<strong id="latest-version" style="color: var(--accent-blue);"></strong>。系统自动分析中，请下载适配您系统架构的客户端。<span id="os-display" style="margin-left: 10px; font-weight: bold; color: var(--accent-blue);"></span></p>
-           
-        </header>
+    <div class="split-wrapper">
+        <div class="split-left"></div>
+        <div class="split-right">
+            <div class="container">
+                <header class="app-header-card">
+                    <div class="app-icon">
+                        <img src="./client/img/icon_512x512@2x.png" style="max-width:150px;max-height:100px;border-radius: 50%;" class="logo" alt="维C加速">
+                    </div>
+                    <h1 class="app-title">维C加速</h1>
+                    <p>VC NET: TikTok overseas business</p>
+                    <div class="xxxpan-text">防失联，请收藏此地址发布页</div>
+                    
+                    <div class="primary-action">
+                        <div class="button-group">
+                            <a href="https://shop.vcnets.top" class="app-store-button" id="main-buy-button">购买节点</a>
+                            <a href="https://www.vc-netapp.top/" class="app-store-button" id="main-renew-button">节点续费</a>
+                        </div>
+                    </div>
+                </header>
 
-        <main class="download-grid" id="download-matrix">
-            <!-- Windows -->
-            <div class="platform-card" data-os="windows">
-                <div class="card-header">
-                    <i class="fab fa-windows platform-icon"></i>
-                    <div><h2 class="platform-name">Windows 电脑 <span>Windows / PC</span></h2></div>
-                </div>
-                <ul class="variant-list">
-                    <li class="variant-item" data-os-variant="windows-x86_64">
-                        <div class="version-info">Windows x86_64 安装版 <small>Windows 10+ / Intel / AMD / <span class="app-version"></span></small></div>
-                        <a href="#" data-download-file="VcNet-{version}-windows-x86_64.exe" class="download-btn" rel="nofollow" target="_blank">下载 EXE</a>
+                <h2 class="list-header">官方入口</h2>
+                <ul class="ios-group-list">
+                    <li>
+                        <a href="../client/" class="list-item-content">
+                            <span class="icon-wrapper icon-download"><i class="fas fa-download"></i></span>
+                            <span class="item-label">客户端下载</span>
+                            <i class="fas fa-chevron-right chevron"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.vc-netapp.top/" class="list-item-content" id="link-official-1">
+                            <span class="icon-wrapper icon-globe"><i class="fas fa-link"></i></span>
+                            <span class="item-label">打开国内官网① </span>
+                            <i class="fas fa-chevron-right chevron"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.vc-netapp.top/" class="list-item-content" id="link-official-2">
+                            <span class="icon-wrapper icon-globe"><i class="fas fa-link"></i></span>
+                            <span class="item-label">打开国内官网② </span>
+                            <i class="fas fa-chevron-right chevron"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.vc-netapp.top/" class="list-item-content" id="link-official-proxy">
+                            <span class="icon-wrapper icon-globe"><i class="fas fa-shield-alt"></i></span>
+                            <span class="item-label">打开国外官网 (需代理访问)</span>
+                            <i class="fas fa-chevron-right chevron"></i>
+                        </a>
                     </li>
                 </ul>
-            </div>
 
-            <!-- macOS -->
-            <div class="platform-card" data-os="macos">
-                <div class="card-header">
-                    <i class="fab fa-apple platform-icon"></i>
-                    <div><h2 class="platform-name">macOS 电脑 <span>MacBook / iMac</span></h2></div>
-                </div>
-                <ul class="variant-list">
-                    <li class="variant-item" data-os-variant="macos-arm64">
-                        <div class="version-info">M 系列处理器 <small>macOS 11+ / M1 / M2 / M3 / M4 / ARM64 / <span class="app-version"></span></small></div>
-                        <a href="#" data-download-file="VcNet-{version}-macos-arm64.dmg" class="download-btn" rel="nofollow" target="_blank">下载 DMG</a>
-                    </li>
-                    <li class="variant-item" data-os-variant="macos-amd64">
-                        <div class="version-info">Intel 系列处理器 <small>macOS 10.5+ / Intel Mac / AMD64 / <span class="app-version"></span></small></div>
-                        <a href="#" data-download-file="VcNet-{version}-macos-amd64.dmg" class="download-btn" rel="nofollow" target="_blank">下载 DMG</a>
+                <h2 class="list-header">社区与通知</h2>
+                <ul class="ios-group-list">
+                     <li>
+                        <a href="https://t.me/+md1SNA27IJQ1MWM1" target="_blank" class="list-item-content">
+                            <span class="icon-wrapper icon-telegram"><i class="fab fa-telegram-plane"></i></span>
+                            <span class="item-label">Telegram 官方频道</span>
+                            <i class="fas fa-chevron-right chevron"></i>
+                        </a>
                     </li>
                 </ul>
+
+                <footer class="footer">
+                    <p>© 2026 VCNET. All rights reserved.</p>
+                </footer>
             </div>
-
-            <!-- Android -->
-            <div class="platform-card" data-os="android">
-                <div class="card-header">
-                    <i class="fab fa-android platform-icon"></i>
-                    <div><h2 class="platform-name">Android / 鸿蒙 <span>手机 / 平板 / 电视</span></h2></div>
-                </div>
-                <ul class="variant-list">
-                    <li class="variant-item" data-os-variant="android-arm64">
-                        <div class="version-info">ARM64 版本 <small>绝大多数新款安卓设备 / <span class="app-version"></span></small></div>
-                        <a href="#" data-download-file="VcNet-{version}-android-arm64-v8a.apk" class="download-btn" rel="nofollow" target="_blank">下载 APK</a>
-                    </li>
-                    <li class="variant-item" data-os-variant="android-arm32">
-                        <div class="version-info">ARM32 兼容版 <small>旧款 ARM 安卓设备 / <span class="app-version"></span></small></div>
-                        <a href="#" data-download-file="VcNet-{version}-android-armeabi-v7a.apk" class="download-btn" rel="nofollow" target="_blank">下载 APK</a>
-                    </li>
-                    <li class="variant-item" data-os-variant="android-x86_64">
-                        <div class="version-info">x86_64 版本 <small>部分模拟器 / x86_64 安卓设备 / <span class="app-version"></span></small></div>
-                        <a href="#" data-download-file="VcNet-{version}-android-x86_64.apk" class="download-btn" rel="nofollow" target="_blank">下载 APK</a>
-                    </li>
-                </ul>
-            </div>
-
-            
-
-            <!-- iOS -->
-            <div class="platform-card" data-os="ios">
-                <div class="card-header">
-                    <i class="fas fa-mobile-alt platform-icon"></i>
-                    <div><h2 class="platform-name">iOS 苹果手机 <span>iPhone / iPad</span></h2></div>
-                </div>
-                <ul class="variant-list">
-                    <li class="variant-item">
-                        <div class="version-info">Clash Lite<small>美区 AppleStore 下载</small></div>
-                        <a href="https://doc.vcnets.top/doc/3/" class="download-btn" rel="nofollow" target="_blank">点击获取</a>
-                    </li>
-                </ul>
-                <ul class="variant-list">
-                    <li class="variant-item">
-                        <div class="version-info">Nextin(星拓)<small>美区 AppleStore 下载</small></div>
-                        <a href="https://doc.vcnets.top/doc/8/" class="download-btn" rel="nofollow" target="_blank">点击获取</a>
-                    </li>
-                </ul>
-            </div>
-
-
-        </main>
-
-        <section class="footer-section">
-            <div class="support-info">
-                <h3>🛠 客户端部署指南</h3>
-                <p>⚠️ Windows 提示「Windows 已保护你的电脑」请参考这篇文章：<a href="https://zhuanlan.zhihu.com/p/1937494425124209215">[文章1]</a></p>
-                <p>⚠️ MacOS 无法验证开发者请参考这两篇文章：<a href="https://zhuanlan.zhihu.com/p/350705231">[文章1]</a> <a href="https://support.apple.com/zh-cn/guide/mac-help/mh40616/mac)">[文章2]</a><p>
-            </div>
-            <div class="cta-group">
-                <a class="cta-btn primary" href="https://shop.vcnets.top" target="_blank">购买加速节点</a>
-                <a class="cta-btn secondary" href="https://doc.vcnets.top/doc/1/" target="_blank">查看使用教程</a>
-            </div>
-        </section>
+        </div>
     </div>
 
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    // --- 全局客户端版本控制：后续发版只需要修改这里 ---
-    const APP_VERSION = '2.0.7';
-    const DOWNLOAD_BASE = 'https://down.vcnetapp.top';
-
-    const latestVersion = document.getElementById('latest-version');
-    if (latestVersion) latestVersion.textContent = `v${APP_VERSION}`;
-
-    document.querySelectorAll('.app-version').forEach(el => {
-        el.textContent = `v${APP_VERSION}`;
-    });
-
-    document.querySelectorAll('[data-download-file]').forEach(link => {
-        const fileName = link.dataset.downloadFile.replace('{version}', APP_VERSION);
-        link.href = `${DOWNLOAD_BASE}/${fileName}`;
-    });
-    const osDisplay = document.getElementById('os-display');
-    const grid = document.getElementById('download-matrix');
-    const desktopOS = ['windows', 'macos'];
-    const mobileOS = ['android', 'ios'];
-    const ua = navigator.userAgent;
-    let detectedOS = null;
-
-    function reorderCards() {
-        if (!detectedOS) return;
-
-        const cards = Array.from(grid.querySelectorAll('.platform-card'));
-        const cardMap = {};
-        cards.forEach(card => cardMap[card.getAttribute('data-os')] = card);
-
-        const isMobile = mobileOS.includes(detectedOS);
-        const order = [
-            detectedOS,
-            ...(isMobile ? mobileOS : desktopOS),
-            ...(isMobile ? desktopOS : mobileOS)
-        ];
-        const finalOrder = [...new Set(order)];
-
-        grid.innerHTML = '';
-        finalOrder.forEach(os => {
-            if (cardMap[os]) {
-                cardMap[os].classList.toggle('recommended', os === detectedOS);
-                grid.appendChild(cardMap[os]);
-            }
-        });
-    }
-
-    async function collectDeviceInfo() {
-        let info = {
-            arch: 'unknown',
-            platformName: 'Other',
-            isAndroid: /Android/i.test(ua),
-            isWindows: /Win/i.test(ua),
-            isMacOS: /Macintosh/i.test(ua),
-            isIOS: /iPhone|iPad/i.test(ua)
-        };
-
-        if (navigator.userAgentData && navigator.userAgentData.getHighEntropyValues) {
-            try {
-                const hints = await navigator.userAgentData.getHighEntropyValues([
-                    'architecture',
-                    'platform',
-                    'bitness'
-                ]);
-                info.arch = hints.architecture || '';
-                info.platformName = hints.platform || '';
-            } catch (e) {}
+    <script>
+    (function () {
+    
+        /* =========================================================
+         * 1 动态域名生成（保持原逻辑）
+         * ========================================================= */
+        function generateRandomDomain() {
+        
+            const randomNum1 = Math.floor(Math.random() * 100) + 1;
+            const randomNum2 = Math.floor(Math.random() * 100) + 1;
+            const randomNum3 = Math.floor(Math.random() * 100) + 1;
+        
+            return {
+                domain1: `https://${randomNum1}.vcnet.cfd`,
+                domain2: `https://${randomNum2}.vc-net.cfd`,
+                domain3: `https://${randomNum3}.vcnet.bar`
+            };
         }
-
-        if (info.arch === 'unknown' || !info.arch) {
-            if (/x86_64|x64|amd64|x86/i.test(ua)) info.arch = 'x86_64';
-            else if (/arm64|aarch64/i.test(ua)) info.arch = 'arm64';
-            else if (/armv7|armeabi/i.test(ua)) info.arch = 'arm32';
-        }
-
-        return info;
-    }
-
-    async function initPage() {
-        const info = await collectDeviceInfo();
-
-        detectedOS = info.isIOS
-            ? 'ios'
-            : (info.isAndroid
-                ? 'android'
-                : (info.isWindows
-                    ? 'windows'
-                    : (info.isMacOS ? 'macos' : null)));
-
-        if (osDisplay) {
-            osDisplay.textContent =
-                ` (您的系统架构: ${info.platformName} ${String(info.arch).toUpperCase()})`;
-        }
-
-        reorderCards();
-    }
-
-    initPage();
-
-    (function() {
-        const lUA = ua.toLowerCase();
-        if (lUA.includes('micromessenger') || lUA.includes('qq/')) {
-            document.body.innerHTML = `
-                <div style="text-align:center;color:white;padding-top:50px;font-family:sans-serif;">
-                    <p style="font-size:1.5rem;">请点击右上角，使用系统浏览器打开</p>
-                </div>
+        
+        const { domain1, domain2, domain3 } = generateRandomDomain();
+    
+        /* =========================================================
+         * 2 微信 / QQ 内置浏览器拦截（立即执行，无需等 DOM）
+         * ========================================================= */
+        const ua = navigator.userAgent.toLowerCase();
+        const isWeChat = /micromessenger/.test(ua);
+        const isQQ = /qq\//.test(ua) && !/mqqbrowser/.test(ua);
+        const isQQMail = /mailapp\//.test(ua);
+        
+        if (isWeChat || isQQ || isQQMail) {
+            document.documentElement.innerHTML = `
+                <head>
+                    <meta charset="utf-8">
+                    <title>请使用外部浏览器打开</title>
+                </head>
+                <body style="margin:0;padding:0;">
+                    <div style="padding:20px;text-align:center;margin-top:50px;">
+                        <h1 style="color:#ff3b30;font-size:24px;">🚫 浏览器限制</h1>
+                        <p style="color:#8e8e93;font-size:17px;">
+                            检测到您正在使用微信、QQ 或 QQ邮箱内置浏览器<br>
+                            请点击右上角菜单，选择「在浏览器中打开」
+                        </p>
+                        <img src="https://www.vcnets.top/wx1.jpg"
+                             style="max-width:100%;margin-top:30px;border-radius:8px;
+                             box-shadow:0 4px 12px rgba(0,0,0,.1);">
+                    </div>
+                </body>
             `;
+            return;
         }
+    
+        /* =========================================================
+         * 3 Hash 处理核心
+         *    - 兼容 nginx 301
+         *    - 兼容首次进入 / hashchange
+         * ========================================================= */
+        function handleHashLogic() {
+            const currentHash = window.location.hash;
+            if (!currentHash) return;
+        
+            /* ===============================
+             * 注册链接 → 动态域名（带白名单）
+             * =============================== */
+            const registerMatch = currentHash.match(/^#\/register\?code=(\w+)/);
+            if (registerMatch) {
+                const code = registerMatch[1];
+    
+                if (code === 'FdDZtKbc') {
+                    return;
+                }
+        
+                document.body.innerHTML = "";
+                const targetDomain = Math.random() < 0.5 ? domain1 : domain2;
+                window.location.replace(targetDomain + currentHash);
+                return;
+            }
+        
+            /* ===============================
+             * 登录 → 动态域名
+             * =============================== */
+            if (/^#\/login/.test(currentHash)) {
+                document.body.innerHTML = "";
+                const targetDomain = Math.random() < 0.5 ? domain1 : domain2;
+                window.location.replace(targetDomain + currentHash);
+                return;
+            }
+        
+            /* ===============================
+             * 订单页 → 支付页修正
+             * =============================== */
+            if (/^#\/payment/.test(currentHash)) {
+                try {
+                    const urlObj = new URL("https://dummy.com/" + currentHash.substring(1));
+                    const tradeNo = urlObj.searchParams.get("out_trade_no");
+        
+                    if (tradeNo) {
+                        const newHash = `#/payment?trade_no=${tradeNo}`;
+                        window.location.replace(newHash);
+                    }
+                } catch (e) {
+                    // hash 异常直接忽略
+                }
+            }
+        }
+        /* =========================================================
+         * 4 链接更新逻辑（DOM 完成后执行）
+         * ========================================================= */
+        function updateLinks() {
+            const currentHash = window.location.hash;
+    
+            const link1 = document.getElementById('link-official-1');
+            const link2 = document.getElementById('link-official-2');
+            const linkProxy = document.getElementById('link-official-proxy');
+            const renewButton = document.getElementById('main-renew-button');
+    
+            // 原始 pathname（如 /）
+            let finalPath = '';
+            if (link1) {
+                try {
+                    const path = new URL(link1.href).pathname.replace(/\//g, '');
+                    finalPath = path ? '/' + path : '';
+                } catch (e) {}
+            }
+    
+            // 动态官网 1（国内主站 + 续费）
+            const finalDynamicUrl = (Math.random() < 0.5 ? domain1 : domain2) + finalPath + currentHash;
+    
+            if (link1) {
+                link1.href = finalDynamicUrl;
+            }
+    
+            if (link2) {
+                link2.href = domain3 + finalPath + currentHash;
+            }
+    
+            if (linkProxy) {
+                linkProxy.href =
+                    linkProxy.href.split('#')[0] + finalPath + currentHash;
+            }
+    
+            // 立即续费按钮
+            if (renewButton) {
+                renewButton.onclick = function (e) {
+                    e.preventDefault();
+                    window.location.href = finalDynamicUrl;
+                };
+            }
+        }
+    
+        /* =========================================================
+         * 5 统一调度（保证 301 后 hash 已恢复）
+         * ========================================================= */
+        document.addEventListener('DOMContentLoaded', function () {
+            handleHashLogic();
+            updateLinks();
+        });
+    
+        // SPA / 手动修改 hash 也能修正
+        window.addEventListener('hashchange', handleHashLogic);
+    
     })();
-});
-</script>
+    </script>
 </body>
 </html>
